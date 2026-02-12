@@ -22,18 +22,6 @@ canvas{
   z-index:0;
 }
 
-/* PARALLAX */
-.parallax{
-  position:relative;
-  z-index:1;
-  height:100vh;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
-}
-
 /* TITULO */
 h1{
   font-size:64px;
@@ -101,14 +89,14 @@ h1{
   cursor:pointer;
   background:linear-gradient(135deg,#00e0ff,#0072ff);
   color:white;
-  box-shadow:0 0 35px rgba(0,224,255,0.8);
+  box-shadow:0 0 25px rgba(0,224,255,0.8);
   animation:pulse 2s infinite;
 }
 
 @keyframes pulse{
-  0%{box-shadow:0 0 20px #00e0ff;}
-  50%{box-shadow:0 0 50px #00e0ff;}
-  100%{box-shadow:0 0 20px #00e0ff;}
+  0%{box-shadow:0 0 10px #00e0ff;}
+  50%{box-shadow:0 0 25px #00e0ff;}
+  100%{box-shadow:0 0 10px #00e0ff;}
 }
 
 /* SPONSORS */
@@ -119,7 +107,7 @@ h1{
   align-items:center;
   opacity:0.4;
   animation: fadeSponsors 2s ease forwards;
-  padding:10%;
+  padding-bottom:10%;
 }
 
 @keyframes fadeSponsors{
@@ -185,19 +173,12 @@ footer{
   font-size:28px;
   cursor:pointer;
 }
-
-/* PARALLAX MOVE */
-.parallax{
-  transition:transform 0.1s linear;
-}
 </style>
 </head>
 
 <body>
 
 <canvas id="particles"></canvas>
-
-<div class="parallax" id="parallax">
 
 <h1>LIBERTY 25 AÑOS</h1>
 <div class="subtitle">Celebrando nuestra historia.</div>
