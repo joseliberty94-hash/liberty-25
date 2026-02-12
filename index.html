@@ -16,7 +16,7 @@ body{
   overflow:hidden;
 }
 
-/* FONDO GRADIENT ELEGANTE */
+/* FONDO PARALLAX */
 .bg{
   position:fixed;
   inset:0;
@@ -24,13 +24,8 @@ body{
     radial-gradient(circle at 20% 20%, rgba(0,140,255,0.25), transparent 40%),
     radial-gradient(circle at 80% 30%, rgba(140,0,255,0.20), transparent 45%),
     radial-gradient(circle at 50% 80%, rgba(0,200,255,0.15), transparent 40%);
-  animation: floatBg 18s ease-in-out infinite alternate;
+  transition:transform 0.1s linear;
   z-index:-1;
-}
-
-@keyframes floatBg{
-  from{transform:translate(0,0);}
-  to{transform:translate(-40px,-30px);}
 }
 
 /* HERO */
@@ -93,7 +88,7 @@ h2{
   font-weight:600;
 }
 
-/* BOTON ELEGANTE */
+/* BOTON */
 .btn{
   padding:18px 60px;
   border:none;
@@ -111,6 +106,29 @@ h2{
   box-shadow:0 0 40px rgba(0,150,255,0.7);
 }
 
+/* SPONSORS */
+.sponsors{
+  margin-top:50px;
+  overflow:hidden;
+}
+
+.sponsors-track{
+  display:flex;
+  gap:50px;
+  animation: scrollSponsors 25s linear infinite;
+}
+
+.sponsors img{
+  height:50px;
+  opacity:0.8;
+  filter:grayscale(100%);
+}
+
+@keyframes scrollSponsors{
+  from{transform:translateX(0);}
+  to{transform:translateX(-50%);}
+}
+
 /* MODAL */
 .modal{
   position:fixed;
@@ -120,9 +138,16 @@ h2{
   align-items:center;
   justify-content:center;
   z-index:999;
+  opacity:0;
+  transition:opacity 0.4s ease;
 }
 
-/* GLASS PREMIUM */
+.modal.show{
+  display:flex;
+  opacity:1;
+}
+
+/* GLASS */
 .modal-content{
   background: rgba(255,255,255,0.12);
   backdrop-filter: blur(25px);
@@ -135,6 +160,12 @@ h2{
   position:relative;
   overflow-y:auto;
   scrollbar-width:none;
+  transform:translateY(30px) scale(0.9);
+  transition:all 0.4s ease;
+}
+
+.modal.show .modal-content{
+  transform:translateY(0) scale(1);
 }
 
 .modal-content::-webkit-scrollbar{display:none;}
@@ -145,7 +176,6 @@ h2{
   right:20px;
   font-size:22px;
   cursor:pointer;
-  color:white;
 }
 
 /* FOOTER */
@@ -162,7 +192,7 @@ footer{
 
 <body>
 
-<div class="bg"></div>
+<div class="bg" id="bg"></div>
 
 <section class="hero">
   <div class="hero-content">
@@ -177,6 +207,21 @@ footer{
     </div>
 
     <button class="btn" onclick="openModal()">REGISTRO</button>
+
+    <!-- SPONSORS -->
+    <div class="sponsors">
+      <div class="sponsors-track">
+        <img src="logo1.png">
+        <img src="logo2.png">
+        <img src="logo3.png">
+        <img src="logo4.png">
+        <img src="logo5.png">
+        <img src="logo1.png">
+        <img src="logo2.png">
+        <img src="logo3.png">
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -202,6 +247,7 @@ footer{
       target="_blank">Billetterie Weezevent</a>
 
     <script src="https://widget.weezevent.com/weez.js"></script>
+
   </div>
 </div>
 
@@ -210,11 +256,21 @@ footer{
 </footer>
 
 <script>
+/* PARALLAX */
+document.addEventListener("mousemove", e=>{
+  const x = (e.clientX / window.innerWidth - 0.5) * 30;
+  const y = (e.clientY / window.innerHeight - 0.5) * 30;
+  document.getElementById("bg").style.transform = `translate(${x}px, ${y}px)`;
+});
+
+/* MODAL */
 function openModal(){
-  document.getElementById("modalRegistro").style.display="flex";
+  const modal=document.getElementById("modalRegistro");
+  modal.classList.add("show");
 }
 function closeModal(){
-  document.getElementById("modalRegistro").style.display="none";
+  const modal=document.getElementById("modalRegistro");
+  modal.classList.remove("show");
 }
 
 /* CONTADOR */
