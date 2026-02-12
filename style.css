@@ -12,17 +12,17 @@ body{
   color:white;
 }
 
-/* PARTICLES */
+/* CANVAS FONDO RAYOS */
 canvas{
   position:fixed;
   top:0;
   left:0;
   width:100%;
   height:100%;
-  z-index:0;
+  z-index:-1;
 }
 
-/* CONTENIDO SOBRE PARTICULAS */
+/* CONTENIDO */
 #section1,
 .modal,
 footer{
@@ -32,20 +32,20 @@ footer{
 
 /* SECTION */
 #section1{
-  margin-top: 5%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 50%;
-  height: 85%;
+  margin-top:5%;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  width:50%;
+  height:85%;
 }
 
 /* TITULO */
 h1{
-  text-align: center;
+  text-align:center;
   font-size:64px;
   letter-spacing:3px;
-  animation: glow 3s ease-in-out infinite alternate, fadeIn 2s ease;
+  animation:glow 3s ease-in-out infinite alternate, fadeIn 2s ease;
 }
 
 @keyframes glow{
@@ -119,14 +119,14 @@ h1{
 }
 
 /* ========================= */
-/* SPONSORS MARQUEE PREMIUM */
+/* SPONSORS CARRUSEL */
 /* ========================= */
 
 .sponsors-wrapper{
   width:100%;
   overflow:hidden;
   padding-bottom:10%;
-  opacity:1;
+  opacity:0.6;
 }
 
 .sponsors-track{
@@ -137,25 +137,22 @@ h1{
 }
 
 @keyframes scrollSponsors{
-  from{
-    transform:translateX(0%);
-  }
-  to{
-    transform:translateX(-50%);
-  }
+  from{ transform: translateX(0); }
+  to{ transform: translateX(-50%); }
 }
 
 .sponsors-track img{
   height:40px;
-   transition:0.4s ease;
+  filter:grayscale(100%);
+  transition:0.4s ease;
 }
 
 .sponsors-track img:hover{
+  filter:grayscale(0%);
   transform:scale(1.15);
   opacity:1;
 }
 
-/* Pausa al pasar mouse */
 .sponsors-wrapper:hover .sponsors-track{
   animation-play-state: paused;
 }
@@ -208,4 +205,35 @@ footer{
   font-size:28px;
   cursor:pointer;
   color:black;
+}
+
+/* ========================= */
+/* RESPONSIVE */
+/* ========================= */
+
+@media(max-width:900px){
+  #section1{
+    width:90%;
+  }
+
+  h1{
+    font-size:42px;
+  }
+
+  .countdown{
+    flex-wrap:wrap;
+    justify-content:center;
+  }
+
+  .time-box{
+    width:80px;
+  }
+
+  .btn{
+    padding:14px 50px;
+  }
+
+  .sponsors-track img{
+    height:30px;
+  }
 }
