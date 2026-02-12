@@ -147,12 +147,10 @@ h1{
 
 .sponsors-track img{
   height:40px;
-  filter:grayscale(100%);
-  transition:0.4s ease;
+   transition:0.4s ease;
 }
 
 .sponsors-track img:hover{
-  filter:grayscale(0%);
   transform:scale(1.15);
   opacity:1;
 }
