@@ -1,9 +1,11 @@
-*{margin:0 auto;
+*{
+  margin:0 auto;
   padding:0;
   box-sizing:border-box;
-  font-family:'Poppins',sans-serif;}
+  font-family:'Poppins',sans-serif;
+}
 
-  body{
+body{
   height:100vh;
   overflow:hidden;
   background:#050b1f;
@@ -15,16 +17,27 @@ canvas{
   position:fixed;
   top:0;
   left:0;
+  width:100%;
+  height:100%;
   z-index:0;
 }
 
+/* CONTENIDO SOBRE PARTICULAS */
+#section1,
+.modal,
+footer{
+  position:relative;
+  z-index:1;
+}
+
+/* SECTION */
 #section1{
   margin-top: 5%;
   display: flex;
-flex-direction: column;
-justify-content: center;
-width: 50%;
-height: 85%;
+  flex-direction: column;
+  justify-content: center;
+  width: 50%;
+  height: 85%;
 }
 
 /* TITULO */
@@ -136,6 +149,7 @@ h1{
 /* FOOTER */
 footer{
   position:absolute;
+  bottom:20px;
   font-size:13px;
   opacity:0.6;
 }
@@ -164,7 +178,9 @@ footer{
   scrollbar-width:none;
 }
 
-.modal-content::-webkit-scrollbar{display:none;}
+.modal-content::-webkit-scrollbar{
+  display:none;
+}
 
 @keyframes modalIn{
   from{transform:scale(0.7);opacity:0;}
