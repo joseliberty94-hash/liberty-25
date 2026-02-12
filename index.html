@@ -100,6 +100,7 @@ h2{
   box-shadow:0 0 25px rgba(0,198,255,0.6);
   transition:0.4s ease;
   animation:pulseGlow 2s infinite;
+  margin-bottom:70px; /* MÁS ESPACIO */
 }
 
 .btn:hover{
@@ -113,16 +114,15 @@ h2{
   100%{box-shadow:0 0 15px rgba(0,198,255,0.4);}
 }
 
-/* SPONSORS FIJOS */
+/* SPONSORS */
 .sponsors{
-  position:absolute;
-  bottom:40px;
   width:100%;
   display:flex;
   justify-content:center;
   align-items:center;
-  gap:50px;
-  opacity:0.5;
+  gap:60px;
+  opacity:0.45;
+  margin-top:20px;
   animation:fadeSponsors 2s ease forwards;
 }
 
@@ -140,7 +140,7 @@ h2{
 
 @keyframes fadeSponsors{
   from{opacity:0;}
-  to{opacity:0.5;}
+  to{opacity:0.45;}
 }
 
 /* MODAL */
@@ -238,11 +238,9 @@ footer{
 <div class="modal" id="modalRegistro">
   <div class="modal-content">
     <span class="close" onclick="closeModal()">✕</span>
-
     <h2 style="text-align:center;">Registro al Evento</h2>
     <hr>
 
-    <!-- WEEZEVENT -->
     <a title="Venta de entradas en línea"
       href="https://widget.weezevent.com/ticket/E1732207/?code=51518&locale=es-ES&width_auto=1&color_primary=0032FA"
       class="weezevent-widget-integration"
@@ -256,7 +254,6 @@ footer{
       target="_blank">Billetterie Weezevent</a>
 
     <script src="https://widget.weezevent.com/weez.js"></script>
-
   </div>
 </div>
 
