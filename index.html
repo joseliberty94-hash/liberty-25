@@ -78,12 +78,20 @@ h2{
   color:#222;
   width:95%;
   max-width:850px;
-  height:85vh; /* MAS GRANDE */
+  height:85vh;
   padding:20px 25px;
   border-radius:25px;
   position:relative;
   animation: zoom 0.4s ease;
-  overflow:hidden; /* SIN SCROLL */
+
+  overflow-y:auto;            /* SCROLL ACTIVO */
+  scrollbar-width:none;       /* Firefox */
+  -ms-overflow-style:none;    /* Edge viejo */
+}
+
+/* ocultar barra Chrome/Safari */
+.modal-content::-webkit-scrollbar{
+  display:none;
 }
 
 /* cerrar */
