@@ -95,38 +95,52 @@ h2{
   border-radius:60px;
   font-size:18px;
   cursor:pointer;
-  background: linear-gradient(135deg,#00bfff,#0066ff);
+  background: linear-gradient(135deg,#00c6ff,#0072ff);
   color:white;
-  box-shadow:0 0 25px rgba(0,150,255,0.4);
+  box-shadow:0 0 25px rgba(0,198,255,0.6);
   transition:0.4s ease;
+  animation:pulseGlow 2s infinite;
 }
 
 .btn:hover{
   transform:translateY(-2px) scale(1.05);
-  box-shadow:0 0 40px rgba(0,150,255,0.7);
+  box-shadow:0 0 45px rgba(0,198,255,0.9);
 }
 
-/* SPONSORS */
+@keyframes pulseGlow{
+  0%{box-shadow:0 0 15px rgba(0,198,255,0.4);}
+  50%{box-shadow:0 0 35px rgba(0,198,255,0.9);}
+  100%{box-shadow:0 0 15px rgba(0,198,255,0.4);}
+}
+
+/* SPONSORS FIJOS */
 .sponsors{
-  margin-top:50px;
-  overflow:hidden;
-}
-
-.sponsors-track{
+  position:absolute;
+  bottom:40px;
+  width:100%;
   display:flex;
+  justify-content:center;
+  align-items:center;
   gap:50px;
-  animation: scrollSponsors 25s linear infinite;
+  opacity:0.5;
+  animation:fadeSponsors 2s ease forwards;
 }
 
 .sponsors img{
-  height:50px;
-  opacity:0.8;
+  height:40px;
   filter:grayscale(100%);
+  transition:0.4s ease;
 }
 
-@keyframes scrollSponsors{
-  from{transform:translateX(0);}
-  to{transform:translateX(-50%);}
+.sponsors img:hover{
+  filter:grayscale(0%);
+  opacity:1;
+  transform:scale(1.1);
+}
+
+@keyframes fadeSponsors{
+  from{opacity:0;}
+  to{opacity:0.5;}
 }
 
 /* MODAL */
@@ -209,15 +223,13 @@ footer{
     <button class="btn" onclick="openModal()">REGISTRO</button>
 
     <!-- SPONSORS -->
-   <div class="sponsors">
-  <div class="sponsors-track">
-    <img src="img/viva.png" alt="Sponsor 1">
-    <img src="img/riu.png" alt="Sponsor 2">
-    <img src="img/clubmed.png" alt="Sponsor 3">
-    <img src="img/royal.png" alt="Sponsor 4">
-    <img src="img/norwegian.png" alt="Sponsor 5">
-  </div>
-</div>
+    <div class="sponsors">
+      <img src="img/viva.png" alt="Viva">
+      <img src="img/riu.png" alt="Riu">
+      <img src="img/clubmed.png" alt="Club Med">
+      <img src="img/royal.png" alt="Royal Caribbean">
+      <img src="img/norwegian.png" alt="Norwegian">
+    </div>
 
   </div>
 </section>
@@ -262,12 +274,10 @@ document.addEventListener("mousemove", e=>{
 
 /* MODAL */
 function openModal(){
-  const modal=document.getElementById("modalRegistro");
-  modal.classList.add("show");
+  document.getElementById("modalRegistro").classList.add("show");
 }
 function closeModal(){
-  const modal=document.getElementById("modalRegistro");
-  modal.classList.remove("show");
+  document.getElementById("modalRegistro").classList.remove("show");
 }
 
 /* CONTADOR */
