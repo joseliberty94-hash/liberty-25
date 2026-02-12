@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Liberty 25 Años</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin:0;
+  font-family:'Poppins', sans-serif;
+  background: linear-gradient(135deg, #001933, #0032FA);
+  color:white;
+  overflow-x:hidden;
+}
+
+/* HERO */
+.hero {
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:40px;
+}
+
+.hero-content {
+  max-width:800px;
+  animation: fadeIn 1.5s ease;
+}
+
+h1 {
+  font-size:3.2rem;
+  margin-bottom:10px;
+}
+
+h2 {
+  font-weight:300;
+  margin-bottom:30px;
+}
+
+.btn {
+  padding:15px 40px;
+  border:none;
+  border-radius:50px;
+  font-size:18px;
+  cursor:pointer;
+  background:#ffd700;
+  color:#003366;
+  transition:0.3s;
+}
+
+.btn:hover {
+  transform:scale(1.05);
+  box-shadow:0 0 20px rgba(255,215,0,0.7);
+}
+
+/* MODAL */
+.modal {
+  position:fixed;
+  top:0; left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.7);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:1000;
+}
+
+.modal-content {
+  background:white;
+  color:#333;
+  width:95%;
+  max-width:750px;
+  padding:25px;
+  border-radius:20px;
+  position:relative;
+  animation: zoomIn 0.4s ease;
+}
+
+.close {
+  position:absolute;
+  top:15px;
+  right:20px;
+  font-size:22px;
+  cursor:pointer;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from {opacity:0; transform:translateY(30px);}
+  to {opacity:1; transform:translateY(0);}
+}
+
+@keyframes zoomIn {
+  from {transform:scale(0.7);}
+  to {transform:scale(1);}
+}
+
+footer {
+  text-align:center;
+  padding:20px;
+  background:#001933;
+  font-size:14px;
+}
+</style>
+</head>
+
+<body>
+
+<section class="hero">
+  <div class="hero-content">
+    <h1>✨ Liberty 25 Años ✨</h1>
+    <h2>Celebrando 25 años de experiencias inolvidables</h2>
+    <p>Te invitamos a ser parte de este evento especial junto a todo el equipo Liberty.</p>
+    <br>
+    <button class="btn" onclick="openModal()">REGISTRO</button>
+  </div>
+</section>
+
+<!-- MODAL -->
+<div class="modal" id="modalRegistro">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">✖</span>
+    <h2 style="text-align:center;">Registro al Evento</h2>
+    <hr><br>
+
+    <!-- WEEZEVENT -->
+    <a title="Venta de entradas en línea"
+      href="https://widget.weezevent.com/ticket/E1732207/?code=51518&locale=es-ES&width_auto=1&color_primary=0032FA"
+      class="weezevent-widget-integration"
+      data-src="https://widget.weezevent.com/ticket/E1732207/?code=51518&locale=es-ES&width_auto=1&color_primary=0032FA"
+      data-id="1732207"
+      data-resize="1"
+      data-width_auto="1"
+      data-noscroll="0"
+      data-use-container="yes"
+      data-type="neo"
+      target="_blank">Billetterie Weezevent</a>
+
+    <script type="text/javascript" src="https://widget.weezevent.com/weez.js"></script>
+
+  </div>
+</div>
+
+<footer>
+  © 2026 Liberty Viajes - 25 Años
+</footer>
+
+<script>
+function openModal(){
+  document.getElementById("modalRegistro").style.display = "flex";
+}
+
+function closeModal(){
+  document.getElementById("modalRegistro").style.display = "none";
+}
+
+// cerrar haciendo click fuera
+window.onclick = function(e){
+  const modal = document.getElementById("modalRegistro");
+  if(e.target === modal){
+    modal.style.display = "none";
+  }
+}
+</script>
+
+</body>
+</html>
