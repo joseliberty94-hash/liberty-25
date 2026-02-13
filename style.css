@@ -69,6 +69,7 @@ h1{
   display:flex;
   gap:10px;
   margin:40px 0;
+  align-self: anchor-center;
 }
 
 .time-box{
@@ -79,6 +80,8 @@ h1{
   backdrop-filter:blur(12px);
   box-shadow:0 0 20px rgba(0,0,0,0.4);
   animation: float 3s ease-in-out infinite;
+  text-align: center;
+  margin: 0;
 }
 
 @keyframes float{
