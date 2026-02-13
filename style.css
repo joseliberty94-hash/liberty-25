@@ -153,7 +153,6 @@ h1{
 
 .sponsors-track img{
   height:40px;
-  filter: grayscale(100%) brightness(1.3); /* GRIS CLARO */
   transition: 0.4s ease;
   opacity:0.75;
 }
