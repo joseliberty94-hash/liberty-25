@@ -154,7 +154,7 @@ h1{
 .sponsors-track img{
   height:40px;
   transition: 0.4s ease;
-  opacity:0.75;
+  opacity:1;
 }
 
 .sponsors-track img:hover{
