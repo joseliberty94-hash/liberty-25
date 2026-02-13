@@ -146,13 +146,13 @@ h1{
 
 .sponsors-track img{
   height:40px;
-  filter: brightness(0) invert(1); /* BLANCO */
+  filter: grayscale(100%) brightness(1.3); /* GRIS CLARO */
   transition: 0.4s ease;
-  opacity:0.8;
+  opacity:0.75;
 }
 
 .sponsors-track img:hover{
-  filter: none; /* color original */
+  filter: grayscale(0%) brightness(1);
   transform: scale(1.15);
   opacity:1;
 }
