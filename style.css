@@ -146,19 +146,21 @@ h1{
 
 .sponsors-track img{
   height:40px;
-  filter:grayscale(100%);
-  transition:0.4s ease;
+  filter: brightness(0) invert(1); /* BLANCO */
+  transition: 0.4s ease;
+  opacity:0.8;
 }
 
 .sponsors-track img:hover{
-  filter:grayscale(0%);
-  transform:scale(1.15);
+  filter: none; /* color original */
+  transform: scale(1.15);
   opacity:1;
 }
 
 .sponsors-wrapper:hover .sponsors-track{
   animation-play-state: paused;
 }
+
 
 /* FOOTER */
 footer{
