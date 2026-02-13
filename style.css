@@ -67,7 +67,7 @@ h1{
 /* COUNTDOWN */
 .countdown{
   display:flex;
-  gap:20px;
+  gap:10px;
   margin:40px 0;
 }
 
