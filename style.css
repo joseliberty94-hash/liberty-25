@@ -8,9 +8,16 @@
 body{
   height:100vh;
   overflow:hidden;
-  background:#050b1f;
+  background: linear-gradient(
+    to bottom,
+    #050b1f 0%,
+    #0a1635 40%,
+    #5f7fa3 70%,
+    #ffffff 100%
+  );
   color:white;
 }
+
 
 /* CANVAS FONDO RAYOS */
 canvas{
