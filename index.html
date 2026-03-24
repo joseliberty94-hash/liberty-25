@@ -14,7 +14,11 @@
 
 <section id="section1">
         
-<h1>LIBERTY 25 AÑOS</h1>
+<h1 class="logo-title">
+  <img src="img/logo-liberty.png" alt="Liberty" class="logo">
+  <span>25 AÑOS</span>
+</h1>
+
 <div class="subtitle">Gracias por acompañarnos en este camino.</div>
 
 <div class="countdown">
@@ -25,48 +29,45 @@
 </div>
 
 <button class="btn" onclick="openModal()">REGISTRO</button>
-<!-- SPONSORS MARQUEE -->
+
+<!-- SPONSORS -->
 <div class="sponsors-wrapper">
   <div class="sponsors-track">
-    <img src="img/riu.png" alt="Riu">
-    <img src="img/clubmed.png" alt="Club Med">
-    <img src="img/iberostar.png" alt="Iberostar">
-    <img src="img/palladium.png" alt="Palladium">
-    <img src="img/sandos.png" alt="Sandos">
-    <img src="img/viva.png" alt="Viva">
-    <img src="img/msc.png" alt="MSC">
-    <img src="img/ncl.png" alt="Norwegian">
-    <img src="img/royal.png" alt="Royal Caribbean">
-    
+    <img src="img/riu.png">
+    <img src="img/clubmed.png">
+    <img src="img/iberostar.png">
+    <img src="img/palladium.png">
+    <img src="img/sandos.png">
+    <img src="img/viva.png">
+    <img src="img/msc.png">
+    <img src="img/ncl.png">
+    <img src="img/royal.png">
 
-    <!-- duplicados para loop infinito -->
-    <img src="img/riu.png" alt="Riu">
-    <img src="img/clubmed.png" alt="Club Med">
-    <img src="img/iberostar.png" alt="Iberostar">
-    <img src="img/palladium.png" alt="Palladium">
-    <img src="img/sandos.png" alt="Sandos">
-    <img src="img/viva.png" alt="Viva">
-    <img src="img/msc.png" alt="MSC">
-    <img src="img/ncl.png" alt="Norwegian">
-    <img src="img/royal.png" alt="Royal Caribbean">
+    <!-- loop -->
+    <img src="img/riu.png">
+    <img src="img/clubmed.png">
+    <img src="img/iberostar.png">
+    <img src="img/palladium.png">
+    <img src="img/sandos.png">
+    <img src="img/viva.png">
+    <img src="img/msc.png">
+    <img src="img/ncl.png">
+    <img src="img/royal.png">
   </div>
 </div>
 
 </section>
-
 
 <!-- MODAL -->
 <div class="modal" id="modal">
   <div class="modal-content">
     <span class="close" onclick="closeModal()">✕</span>
 
-<div class="tt-widget"><div class="tt-widget-fallback"><p><a href="https://www.tickettailor.com/all-tickets/jose7/?ref=website_widget&show_search_filter=true&show_date_filter=true&show_sort=true" target="_blank">
-        Click here to buy tickets</a>
-        <br /><small><a href="https://www.tickettailor.com?rf=wdg_292143" class="tt-widget-powered">
-        Sell tickets online with Ticket Tailor</a>
-        </small></p>
+<div class="tt-widget">
+<script src="https://cdn.tickettailor.com/js/widgets/min/widget.js"
+data-url="https://www.tickettailor.com/all-tickets/jose7/?ref=website_widget"
+data-type="inline"></script>
 </div>
-        <script src="https://cdn.tickettailor.com/js/widgets/min/widget.js" data-url="https://www.tickettailor.com/all-tickets/jose7/?ref=website_widget&show_search_filter=true&show_date_filter=true&show_sort=true" data-type="inline" data-inline-minimal="true" data-inline-show-logo="false" data-inline-bg-fill="false" data-inline-inherit-ref-from-url-param="" data-inline-ref="website_widget"></script></div>
 
   </div>
 </div>
@@ -100,7 +101,6 @@ class Particle {
   update() {
     this.x += this.speedX;
     this.y += this.speedY;
-
     if (this.x < 0 || this.x > w) this.speedX *= -1;
     if (this.y < 0 || this.y > h) this.speedY *= -1;
   }
@@ -115,17 +115,12 @@ class Particle {
 
 function init() {
   particles = [];
-  for (let i = 0; i < num; i++) {
-    particles.push(new Particle());
-  }
+  for (let i = 0; i < num; i++) particles.push(new Particle());
 }
 
 function animate() {
   ctx.clearRect(0, 0, w, h);
-  particles.forEach(p => {
-    p.update();
-    p.draw();
-  });
+  particles.forEach(p => { p.update(); p.draw(); });
   requestAnimationFrame(animate);
 }
 
