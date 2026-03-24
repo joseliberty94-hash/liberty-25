@@ -18,8 +18,6 @@ body{
   color:white;
 }
 
-
-/* CANVAS FONDO RAYOS */
 canvas{
   position:fixed;
   top:0;
@@ -29,15 +27,6 @@ canvas{
   z-index:-1;
 }
 
-/* CONTENIDO */
-#section1,
-.modal,
-footer{
-  position:relative;
-  z-index:1;
-}
-
-/* SECTION */
 #section1{
   margin-top:5%;
   display:flex;
@@ -47,17 +36,31 @@ footer{
   height:85%;
 }
 
-/* TITULO */
-h1{
-  text-align:center;
-  font-size:64px;
-  letter-spacing:3px;
-  animation:glow 3s ease-in-out infinite alternate, fadeIn 2s ease;
+/* LOGO TITLE */
+.logo-title{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+  animation: fadeIn 2s ease;
 }
 
-@keyframes glow{
-  from{text-shadow:0 0 10px #00ccff;}
-  to{text-shadow:0 0 30px #00ccff;}
+.logo{
+  width:300px;
+  max-width:90%;
+  filter: drop-shadow(0 0 20px rgba(0,200,255,0.8));
+  animation: glowLogo 3s ease-in-out infinite alternate;
+}
+
+.logo-title span{
+  font-size:42px;
+  letter-spacing:3px;
+}
+
+/* ANIMACIONES */
+@keyframes glowLogo{
+  from{ filter: drop-shadow(0 0 10px #00ccff); }
+  to{ filter: drop-shadow(0 0 30px #00ccff); }
 }
 
 @keyframes fadeIn{
@@ -76,7 +79,7 @@ h1{
   display:flex;
   gap:10px;
   margin:40px 0;
-  align-self:anchor-center;
+  justify-content:center;
 }
 
 .time-box{
@@ -88,7 +91,6 @@ h1{
   box-shadow:0 0 20px rgba(0,0,0,0.4);
   animation: float 3s ease-in-out infinite;
   text-align:center;
-  margin:0;
 }
 
 @keyframes float{
@@ -102,12 +104,7 @@ h1{
   font-weight:600;
 }
 
-.time-box p{
-  font-size:14px;
-  opacity:0.8;
-}
-
-/* BUTTON */
+/* BOTON */
 .btn{
   margin-top:20px;
   margin-bottom:80px;
@@ -128,15 +125,11 @@ h1{
   100%{box-shadow:0 0 10px #00e0ff;}
 }
 
-/* ========================= */
-/* SPONSORS CARRUSEL */
-/* ========================= */
-
+/* SPONSORS */
 .sponsors-wrapper{
   width:100%;
   overflow:hidden;
   padding-bottom:10%;
-  opacity:1;
 }
 
 .sponsors-track{
@@ -153,27 +146,15 @@ h1{
 
 .sponsors-track img{
   height:40px;
-  transition: 0.4s ease;
-  opacity:1;
+  transition:0.4s;
 }
 
 .sponsors-track img:hover{
-  filter: grayscale(0%) brightness(1);
   transform: scale(1.15);
-  opacity:1;
 }
 
 .sponsors-wrapper:hover .sponsors-track{
   animation-play-state: paused;
-}
-
-
-/* FOOTER */
-footer{
-  position:absolute;
-  bottom:20px;
-  font-size:13px;
-  opacity:0.6;
 }
 
 /* MODAL */
@@ -184,7 +165,6 @@ footer{
   display:none;
   justify-content:center;
   align-items:center;
-  z-index:10;
 }
 
 .modal-content{
@@ -195,18 +175,7 @@ footer{
   backdrop-filter:blur(20px);
   border-radius:30px;
   padding:20px;
-  animation: modalIn 0.6s ease;
   overflow-y:auto;
-  scrollbar-width:none;
-}
-
-.modal-content::-webkit-scrollbar{
-  display:none;
-}
-
-@keyframes modalIn{
-  from{transform:scale(0.7);opacity:0;}
-  to{transform:scale(1);opacity:1;}
 }
 
 .close{
@@ -215,36 +184,11 @@ footer{
   right:30px;
   font-size:28px;
   cursor:pointer;
-  color:black;
 }
 
-/* ========================= */
 /* RESPONSIVE */
-/* ========================= */
-
 @media(max-width:900px){
-  #section1{
-    width:90%;
-  }
-
-  h1{
-    font-size:42px;
-  }
-
-  .countdown{
-    flex-wrap:wrap;
-    justify-content:center;
-  }
-
-  .time-box{
-    width:80px;
-  }
-
-  .btn{
-    padding:14px 50px;
-  }
-
-  .sponsors-track img{
-    height:30px;
-  }
+  #section1{ width:90%; }
+  .logo{ width:220px; }
+  .logo-title span{ font-size:32px; }
 }
