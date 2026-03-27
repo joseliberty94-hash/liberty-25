@@ -25,6 +25,23 @@ body{
   position:relative;
 }
 
+/* elimina banding */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:0.03;
+
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255,255,255,0.03) 0px,
+      rgba(0,0,0,0.03) 1px
+    );
+}
+
+/* CANVAS */
 canvas{
   position:fixed;
   top:0;
@@ -34,6 +51,7 @@ canvas{
   z-index:0;
 }
 
+/* SECTION */
 #section1{
   margin-top:5%;
   display:flex;
@@ -132,25 +150,19 @@ canvas{
   100%{box-shadow:0 0 10px #00e0ff;}
 }
 
-/* SPONSORS */
+/* ========================= */
+/* SPONSORS FULL WIDTH */
+/* ========================= */
+
 .sponsors-wrapper{
   position: relative;
 
-  width: 100vw;              /* ancho total pantalla */
-  left: 50%;
-  transform: translateX(-50%); /* rompe el centrado del contenedor */
+  width:100vw;
+  left:50%;
+  transform:translateX(-50%);
 
-  overflow: hidden;
-  padding: 40px 0;
-}
-.sponsors-wrapper::before{
-  left:0;
-  background: linear-gradient(to right, #ffffff, transparent);
-}
-
-.sponsors-wrapper::after{
-  right:0;
-  background: linear-gradient(to left, #ffffff, transparent);
+  overflow:hidden;
+  padding:40px 0;
 }
 
 .sponsors-track{
@@ -158,6 +170,11 @@ canvas{
   gap:80px;
   width:max-content;
   animation: scrollSponsors 35s linear infinite;
+}
+
+@keyframes scrollSponsors{
+  from{ transform: translateX(0); }
+  to{ transform: translateX(-50%); }
 }
 
 .sponsors-track img{
@@ -170,6 +187,11 @@ canvas{
   transform: scale(1.1);
   opacity:1;
 }
+
+.sponsors-wrapper:hover .sponsors-track{
+  animation-play-state: paused;
+}
+
 /* MODAL */
 .modal{
   position:fixed;
@@ -204,20 +226,8 @@ canvas{
   #section1{ width:90%; }
   .logo{ width:220px; }
   .logo-title span{ font-size:32px; }
-}
 
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-
-  opacity:0.03;
-
-  background-image:
-    repeating-linear-gradient(
-      0deg,
-      rgba(255,255,255,0.03) 0px,
-      rgba(0,0,0,0.03) 1px
-    );
+  .sponsors-track img{
+    height:45px;
+  }
 }
