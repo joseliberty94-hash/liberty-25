@@ -162,7 +162,6 @@ init();
 animate();
 </script>
 
-<!-- ✨ POLVO DE HADA -->
 <script>
 const canvasFairy = document.getElementById("fairyTrail");
 const ctxFairy = canvasFairy.getContext("2d");
@@ -175,16 +174,17 @@ window.addEventListener("resize", ()=>{
   hF = canvasFairy.height = window.innerHeight;
 });
 
+/* PARTÍCULAS */
 let fairyParticles = [];
 
 class Fairy {
   constructor(x,y){
     this.x = x;
     this.y = y;
-    this.size = Math.random()*3+1;
-    this.vx = (Math.random()-0.5)*2;
-    this.vy = (Math.random()-0.5)*2;
-    this.life = 80;
+    this.size = Math.random()*2+1;
+    this.vx = (Math.random()-0.5)*1.5;
+    this.vy = (Math.random()-0.5)*1.5;
+    this.life = 50;
   }
 
   update(){
@@ -196,49 +196,70 @@ class Fairy {
   draw(){
     ctxFairy.beginPath();
     ctxFairy.arc(this.x,this.y,this.size,0,Math.PI*2);
-    ctxFairy.fillStyle = `rgba(255,255,200,${this.life/80})`;
+    ctxFairy.fillStyle = `rgba(255,255,180,${this.life/50})`;
     ctxFairy.fill();
   }
 }
 
-/* trayectoria */
-let path = [
-  {x:50, y:hF*0.7},
-  {x:wF*0.3, y:hF*0.3},
-  {x:wF*0.6, y:hF*0.8},
-  {x:wF*0.8, y:hF*0.2},
-  {x:wF*0.5, y:hF*0.3} // cerca del texto
-];
+/* DETECTAR POSICIÓN REAL DEL TEXTO */
+function getTextPosition(){
+  const text = document.querySelector(".logo-title span");
+  const rect = text.getBoundingClientRect();
+  return {
+    x: rect.left + rect.width/2,
+    y: rect.top + rect.height/2
+  };
+}
+
+/* CAMINO DINÁMICO */
+let current = {x:50, y:hF*0.7};
+let targetPoints = [];
+
+function buildPath(){
+  const textPos = getTextPosition();
+
+  targetPoints = [
+    {x:50, y:hF*0.8},
+    {x:wF*0.3, y:hF*0.2},
+    {x:wF*0.7, y:hF*0.7},
+    {x:wF*0.9, y:hF*0.3},
+    textPos // destino final exacto
+  ];
+}
 
 let step = 0;
-let current = {x:path[0].x, y:path[0].y};
 
+/* ANIMACIÓN */
 function animateFairy(){
 
-  ctxFairy.fillStyle = "rgba(0,0,0,0.08)";
-  ctxFairy.fillRect(0,0,wF,hF);
+  // LIMPIAR SUAVE (sin oscurecer fondo)
+  ctxFairy.clearRect(0,0,wF,hF);
 
-  let target = path[step+1];
+  let target = targetPoints[step+1];
 
   let dx = target.x - current.x;
   let dy = target.y - current.y;
 
-  current.x += dx * 0.02;
-  current.y += dy * 0.02;
+  // velocidad más rápida ⚡
+  current.x += dx * 0.06;
+  current.y += dy * 0.06;
 
-  for(let i=0;i<6;i++){
+  // generar polvo
+  for(let i=0;i<8;i++){
     fairyParticles.push(new Fairy(current.x,current.y));
   }
 
+  // dibujar partículas
   fairyParticles.forEach((p,i)=>{
     p.update();
     p.draw();
     if(p.life<=0) fairyParticles.splice(i,1);
   });
 
+  // avanzar camino
   if(Math.abs(dx)<5 && Math.abs(dy)<5){
     step++;
-    if(step >= path.length-1){
+    if(step >= targetPoints.length-1){
       revealText();
       return;
     }
@@ -247,18 +268,30 @@ function animateFairy(){
   requestAnimationFrame(animateFairy);
 }
 
+/* REVELAR TEXTO SIN CUADRO */
 function revealText(){
   const text = document.querySelector(".logo-title span");
 
-  ctxFairy.fillStyle = "rgba(255,255,255,0.8)";
-  ctxFairy.fillRect(current.x-100,current.y-50,200,100);
+  // pequeño destello puntual (sin cuadro)
+  for(let i=0;i<40;i++){
+    fairyParticles.push(new Fairy(current.x,current.y));
+  }
 
   setTimeout(()=>{
     text.classList.add("show-25");
-  },150);
+  },100);
+
+  // limpiar suavemente después
+  setTimeout(()=>{
+    ctxFairy.clearRect(0,0,wF,hF);
+  },800);
 }
 
-setTimeout(animateFairy,1000);
+/* INICIAR */
+setTimeout(()=>{
+  buildPath();
+  animateFairy();
+},600);
 </script>
 
 <!-- COUNTDOWN -->
