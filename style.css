@@ -6,16 +6,23 @@
 }
 
 body{
-  height:100vh;
-  overflow:hidden;
+  min-height:100vh;
+  overflow-x:hidden;
+
   background: linear-gradient(
     to bottom,
     #050b1f 0%,
-    #0a1635 40%,
-    #113158 80%,
+    #0a1635 25%,
+    #113158 45%,
+    #1f4a6b 60%,
+    #4f7f95 70%,
+    #9fc9d8 80%,
+    #e6f7ff 90%,
     #ffffff 100%
   );
+
   color:white;
+  position:relative;
 }
 
 canvas{
@@ -24,7 +31,7 @@ canvas{
   left:0;
   width:100%;
   height:100%;
-  z-index:-1;
+  z-index:0;
 }
 
 #section1{
@@ -191,4 +198,20 @@ canvas{
   #section1{ width:90%; }
   .logo{ width:220px; }
   .logo-title span{ font-size:32px; }
+}
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+
+  opacity:0.03;
+
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255,255,255,0.03) 0px,
+      rgba(0,0,0,0.03) 1px
+    );
 }
