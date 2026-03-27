@@ -18,7 +18,8 @@ body {
     #e6f7ff 90%,
     #ffffff 100%
   );
-
+color: white;
+  }
   position: relative;
 }
 body::before {
