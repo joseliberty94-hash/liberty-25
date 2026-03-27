@@ -262,53 +262,55 @@ if(radius < 8) radius = 8;
 function revealText(center){
   const text = document.querySelector(".logo-title span");
 
-  // mostrar texto apenas empieza la absorción
+  // mostrar texto
   text.classList.add("show-25");
 
-  let absorbProgress = 0;
+  // ✨ explosión suave inicial
+  for(let i=0;i<60;i++){
+    fairyParticles.push(new Fairy(center.x, center.y));
+  }
 
-  function absorb(){
+  // convertir partículas en dispersión
+  fairyParticles.forEach(p=>{
+    p.vx = (Math.random() - 0.5) * 6; // velocidad más amplia
+    p.vy = (Math.random() - 0.5) * 6;
+    p.life = 60;
+  });
+
+  function disperse(){
     ctxFairy.clearRect(0,0,wF,hF);
 
-    absorbProgress += 0.04;
-
     fairyParticles.forEach((p,i)=>{
+      p.update();
 
-      // mover cada partícula hacia el centro (texto)
-      p.x += (center.x - p.x) * 0.08;
-      p.y += (center.y - p.y) * 0.08;
-
-      p.life -= 1.5;
+      // fade progresivo
+      let opacity = p.life / 60;
 
       ctxFairy.beginPath();
       ctxFairy.arc(p.x,p.y,p.size,0,Math.PI*2);
-      ctxFairy.fillStyle = `rgba(220,230,255,${p.life/40})`;
+      ctxFairy.fillStyle = `rgba(220,230,255,${opacity})`;
       ctxFairy.fill();
+
+      p.life--;
 
       if(p.life <= 0){
         fairyParticles.splice(i,1);
       }
     });
 
-    // seguir animando mientras queden partículas
     if(fairyParticles.length > 0){
-      requestAnimationFrame(absorb);
+      requestAnimationFrame(disperse);
     } else {
-      // limpieza final perfecta
+      // limpieza final
       ctxFairy.clearRect(0,0,wF,hF);
     }
   }
 
-  // pequeña explosión previa ✨ (opcional pero queda brutal)
-  for(let i=0;i<40;i++){
-    fairyParticles.push(new Fairy(center.x, center.y));
-  }
-
   setTimeout(()=>{
-    absorb();
+    disperse();
   },80);
 }
-/* INICIAR */
+  /* INICIAR */
 setTimeout(()=>{
   animateSpiral();
 },600);
