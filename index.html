@@ -201,87 +201,115 @@ class Fairy {
   }
 }
 
-/* DETECTAR POSICIÓN REAL DEL TEXTO */
-function getTextPosition(){
-  const text = document.querySelector(".logo-title span");
-  const rect = text.getBoundingClientRect();
+/* POSICIÓN DEL LOGO */
+function getLogoPosition(){
+  const logo = document.querySelector(".logo-title");
+  const rect = logo.getBoundingClientRect();
   return {
     x: rect.left + rect.width/2,
     y: rect.top + rect.height/2
   };
 }
 
-/* CAMINO DINÁMICO */
-let current = {x:50, y:hF*0.7};
+/* CAMINO */
+let current = {x:50, y:hF*0.8};
 let targetPoints = [];
 
 function buildPath(){
-  const textPos = getTextPosition();
+  const logoPos = getLogoPosition();
 
   targetPoints = [
     {x:50, y:hF*0.8},
     {x:wF*0.3, y:hF*0.2},
     {x:wF*0.7, y:hF*0.7},
     {x:wF*0.9, y:hF*0.3},
-    textPos // destino final exacto
+    logoPos // llega al logo
   ];
 }
 
 let step = 0;
+let spiralMode = false;
+let spiralAngle = 0;
 
 /* ANIMACIÓN */
 function animateFairy(){
 
-  // LIMPIAR SUAVE (sin oscurecer fondo)
   ctxFairy.clearRect(0,0,wF,hF);
 
+  // ✨ MODO ESPIRAL
+  if(spiralMode){
+    const center = getLogoPosition();
+
+    let radius = 80 - spiralAngle * 10; // se va cerrando
+    if(radius < 10) radius = 10;
+
+    current.x = center.x + Math.cos(spiralAngle) * radius;
+    current.y = center.y + Math.sin(spiralAngle) * radius;
+
+    spiralAngle += 0.25;
+
+    for(let i=0;i<10;i++){
+      fairyParticles.push(new Fairy(current.x,current.y));
+    }
+
+    fairyParticles.forEach((p,i)=>{
+      p.update();
+      p.draw();
+      if(p.life<=0) fairyParticles.splice(i,1);
+    });
+
+    // cuando termina espiral → revelar
+    if(spiralAngle > Math.PI * 4){
+      revealText();
+      return;
+    }
+
+    requestAnimationFrame(animateFairy);
+    return;
+  }
+
+  // 🛫 RECORRIDO NORMAL
   let target = targetPoints[step+1];
 
   let dx = target.x - current.x;
   let dy = target.y - current.y;
 
-  // velocidad más rápida ⚡
-  current.x += dx * 0.10;
-  current.y += dy * 0.10;
+  current.x += dx * 0.06;
+  current.y += dy * 0.06;
 
-  // generar polvo
   for(let i=0;i<8;i++){
     fairyParticles.push(new Fairy(current.x,current.y));
   }
 
-  // dibujar partículas
   fairyParticles.forEach((p,i)=>{
     p.update();
     p.draw();
     if(p.life<=0) fairyParticles.splice(i,1);
   });
 
-  // avanzar camino
   if(Math.abs(dx)<5 && Math.abs(dy)<5){
     step++;
     if(step >= targetPoints.length-1){
-      revealText();
-      return;
+      spiralMode = true; // 🔥 activa espiral
     }
   }
 
   requestAnimationFrame(animateFairy);
 }
 
-/* REVELAR TEXTO SIN CUADRO */
+/* REVELAR TEXTO */
 function revealText(){
   const text = document.querySelector(".logo-title span");
 
-  // pequeño destello puntual (sin cuadro)
-  for(let i=0;i<40;i++){
+  // mini explosión mágica ✨
+  for(let i=0;i<60;i++){
     fairyParticles.push(new Fairy(current.x,current.y));
   }
 
   setTimeout(()=>{
     text.classList.add("show-25");
-  },100);
+  },120);
 
-  // limpiar suavemente después
   setTimeout(()=>{
     ctxFairy.clearRect(0,0,wF,hF);
   },800);
