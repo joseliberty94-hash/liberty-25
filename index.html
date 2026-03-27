@@ -220,8 +220,17 @@ function animateSpiral(){
 
   const center = getLogoCenter();
 
-  let radius = 80 - angle * 8; // se cierra la espiral
-  if(radius < 5) radius = 5;
+  const logo = document.querySelector(".logo-title");
+const rect = logo.getBoundingClientRect();
+
+// radio basado en tamaño real del logo 🔥
+let baseRadius = Math.max(rect.width, rect.height) * 0.6;
+
+// espiral que envuelve todo el logo
+let radius = baseRadius - angle * (baseRadius / 10);
+
+// mínimo para cerrar en el centro
+if(radius < 8) radius = 8;
 
   let x = center.x + Math.cos(angle) * radius;
   let y = center.y + Math.sin(angle) * radius;
