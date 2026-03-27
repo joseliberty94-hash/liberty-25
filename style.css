@@ -134,24 +134,15 @@ canvas{
 
 /* SPONSORS */
 .sponsors-wrapper{
-  width:100%;
-  overflow:hidden;
-  padding:40px 0;
-  position:relative;
-}
+  position: relative;
 
-/* fade suave en bordes (MUY PRO) */
-.sponsors-wrapper::before,
-.sponsors-wrapper::after{
-  content:"";
-  position:absolute;
-  top:0;
-  width:120px;
-  height:100%;
-  z-index:2;
-  pointer-events:none;
-}
+  width: 100vw;              /* ancho total pantalla */
+  left: 50%;
+  transform: translateX(-50%); /* rompe el centrado del contenedor */
 
+  overflow: hidden;
+  padding: 40px 0;
+}
 .sponsors-wrapper::before{
   left:0;
   background: linear-gradient(to right, #ffffff, transparent);
@@ -164,23 +155,17 @@ canvas{
 
 .sponsors-track{
   display:flex;
-  gap:60px;
+  gap:80px;
   width:max-content;
   animation: scrollSponsors 35s linear infinite;
 }
 
-@keyframes scrollSponsors{
-  from{ transform: translateX(0); }
-  to{ transform: translateX(-50%); }
-}
-
 .sponsors-track img{
-  height:55px;
-  opacity:0.85;
-  transition: all 0.3s ease;
+  height:60px;
+  opacity:0.9;
+  transition:0.3s ease;
 }
 
-/* efecto elegante, no exagerado */
 .sponsors-track img:hover{
   transform: scale(1.1);
   opacity:1;
