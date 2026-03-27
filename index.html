@@ -5,145 +5,44 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Registro 25 años</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 
 <style>
-body{
-  margin:0;
-  font-family:'Inter',sans-serif;
-  background:#0b1c2c;
-  color:white;
-  overflow-x:hidden;
-}
-
-#particles{
-  position:fixed;
-  width:100%;
-  height:100%;
-  z-index:0;
-}
-
-section{
-  position:relative;
-  z-index:2;
-  text-align:center;
-  padding-top:80px;
-}
-
-/* LOGO */
-.logo-title{
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.logo{
-  height:60px;
-}
-
-/* TEXTO 25 */
-.hidden-text{
-  opacity:0;
-  transform:scale(0.8);
-  transition:all 0.6s ease;
-  font-size:42px;
-  font-weight:600;
-}
-
-.show-text{
-  opacity:1;
-  transform:scale(1);
-  text-shadow: 0 0 10px #00eaff, 0 0 25px #00eaff, 0 0 40px #00eaff;
-}
-
-/* CANVAS MAGIA */
-#magicCanvas{
-  position:absolute;
-  left:0;
-  top:50%;
-  transform:translateY(-50%);
-  pointer-events:none;
-}
-
-/* SUBTITLE */
-.subtitle{
-  margin-top:20px;
-  opacity:0.8;
-}
-
-/* COUNTDOWN */
-.countdown{
-  display:flex;
-  justify-content:center;
-  gap:20px;
-  margin-top:30px;
-}
-
-.time-box{
-  background:rgba(255,255,255,0.05);
-  padding:15px;
-  border-radius:10px;
-  min-width:70px;
-}
-
-.time-box span{
-  font-size:22px;
-  font-weight:bold;
-}
-
-/* BUTTON */
-.btn{
-  margin-top:30px;
-  padding:12px 25px;
-  border:none;
-  border-radius:25px;
-  background:#00eaff;
-  color:#000;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-/* MODAL */
-.modal{
-  display:none;
+/* CANVAS DEL POLVO DE HADA */
+#fairyTrail{
   position:fixed;
   top:0;
   left:0;
   width:100%;
   height:100%;
-  background:rgba(0,0,0,0.8);
-  justify-content:center;
-  align-items:center;
-  z-index:10;
+  pointer-events:none;
+  z-index:5;
 }
 
-.modal-content{
-  background:white;
-  padding:20px;
-  border-radius:10px;
-  width:90%;
-  max-width:600px;
+/* TEXTO OCULTO HASTA EL FINAL */
+.logo-title span{
+  opacity:0;
+  transition:all 0.6s ease;
 }
 
-.close{
-  float:right;
-  cursor:pointer;
-  font-size:20px;
+.show-25{
+  opacity:1 !important;
+  text-shadow: 0 0 10px #00eaff, 0 0 30px #00eaff;
 }
 </style>
+
 </head>
 
 <body>
 
 <canvas id="particles"></canvas>
+<canvas id="fairyTrail"></canvas>
 
-<section>
-
+<section id="section1">
+        
 <h1 class="logo-title">
-  <img src="img/logo-liberty.png" class="logo">
-  <span id="text25" class="hidden-text">25 AÑOS</span>
-  <canvas id="magicCanvas"></canvas>
+  <img src="img/logo-liberty.png" alt="Liberty" class="logo">
+  <span>25 AÑOS</span>
 </h1>
 
 <div class="subtitle">Gracias por acompañarnos en este camino.</div>
@@ -157,6 +56,40 @@ section{
 
 <button class="btn" onclick="openModal()">REGISTRO</button>
 
+<!-- SPONSORS -->
+<div class="sponsors-wrapper">
+  <div class="sponsors-track">
+    <img src="img/iberostar.png">
+    <img src="img/palladium.png">
+    <img src="img/sandos.png">
+    <img src="img/viva.png">
+    <img src="img/msc.png">
+    <img src="img/ncl.png">
+    <img src="img/oceania.png">
+    <img src="img/rgent.png">
+    <img src="img/royal.png">
+    <img src="img/copa.png">
+    <img src="img/Sky_Airline.png">
+    <img src="img/clubmed.png">
+    <img src="img/tourmed.png">
+          
+    <!-- loop -->
+    <img src="img/iberostar.png">
+    <img src="img/palladium.png">
+    <img src="img/sandos.png">
+    <img src="img/viva.png">
+    <img src="img/msc.png">
+    <img src="img/ncl.png">
+    <img src="img/oceania.png">
+    <img src="img/rgent.png">
+    <img src="img/royal.png">
+    <img src="img/copa.png">
+    <img src="img/Sky_Airline.png">
+    <img src="img/clubmed.png">
+    <img src="img/tourmed.png">
+  </div>
+</div>
+
 </section>
 
 <!-- MODAL -->
@@ -164,14 +97,16 @@ section{
   <div class="modal-content">
     <span class="close" onclick="closeModal()">✕</span>
 
+<div class="tt-widget">
 <script src="https://cdn.tickettailor.com/js/widgets/min/widget.js"
 data-url="https://www.tickettailor.com/all-tickets/jose7/?ref=website_widget"
 data-type="inline"></script>
+</div>
 
   </div>
 </div>
 
-<!-- PARTICULAS FONDO -->
+<!-- PARTICULAS -->
 <script>
 const canvas = document.getElementById("particles");
 const ctx = canvas.getContext("2d");
@@ -180,6 +115,7 @@ let w = canvas.width = window.innerWidth;
 let h = canvas.height = window.innerHeight;
 
 let particles = [];
+const num = 120;
 
 window.addEventListener("resize", () => {
   w = canvas.width = window.innerWidth;
@@ -193,129 +129,162 @@ class Particle {
     this.size = Math.random() * 2 + 1;
     this.speedX = (Math.random() - 0.5) * 0.6;
     this.speedY = (Math.random() - 0.5) * 0.6;
+    this.opacity = Math.random();
   }
 
   update() {
     this.x += this.speedX;
     this.y += this.speedY;
+    if (this.x < 0 || this.x > w) this.speedX *= -1;
+    if (this.y < 0 || this.y > h) this.speedY *= -1;
   }
 
   draw() {
-    ctx.fillStyle = "rgba(0,200,255,0.6)";
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(0,200,255,${this.opacity})`;
     ctx.fill();
   }
 }
 
-function animateParticles(){
-  ctx.clearRect(0,0,w,h);
-  particles.forEach(p=>{p.update();p.draw();});
-  requestAnimationFrame(animateParticles);
+function init() {
+  particles = [];
+  for (let i = 0; i < num; i++) particles.push(new Particle());
 }
 
-for(let i=0;i<120;i++) particles.push(new Particle());
-animateParticles();
+function animate() {
+  ctx.clearRect(0, 0, w, h);
+  particles.forEach(p => { p.update(); p.draw(); });
+  requestAnimationFrame(animate);
+}
+
+init();
+animate();
 </script>
 
-<!-- EFECTO MAGICO -->
+<!-- ✨ POLVO DE HADA -->
 <script>
-const canvasMagic = document.getElementById("magicCanvas");
-const ctxMagic = canvasMagic.getContext("2d");
+const canvasFairy = document.getElementById("fairyTrail");
+const ctxFairy = canvasFairy.getContext("2d");
 
-const text = document.getElementById("text25");
+let wF = canvasFairy.width = window.innerWidth;
+let hF = canvasFairy.height = window.innerHeight;
 
-canvasMagic.width = 400;
-canvasMagic.height = 120;
+window.addEventListener("resize", ()=>{
+  wF = canvasFairy.width = window.innerWidth;
+  hF = canvasFairy.height = window.innerHeight;
+});
 
-let particlesMagic = [];
-let progress = 0;
+let fairyParticles = [];
 
-class Spark {
+class Fairy {
   constructor(x,y){
-    this.x=x;
-    this.y=y;
-    this.size=Math.random()*3+1;
-    this.speedX=Math.random()*2+1;
-    this.speedY=(Math.random()-0.5)*2;
-    this.life=60;
+    this.x = x;
+    this.y = y;
+    this.size = Math.random()*3+1;
+    this.vx = (Math.random()-0.5)*2;
+    this.vy = (Math.random()-0.5)*2;
+    this.life = 80;
   }
 
   update(){
-    this.x+=this.speedX;
-    this.y+=this.speedY;
+    this.x += this.vx;
+    this.y += this.vy;
     this.life--;
   }
 
   draw(){
-    ctxMagic.fillStyle=`rgba(0,255,255,${this.life/60})`;
-    ctxMagic.beginPath();
-    ctxMagic.arc(this.x,this.y,this.size,0,Math.PI*2);
-    ctxMagic.fill();
+    ctxFairy.beginPath();
+    ctxFairy.arc(this.x,this.y,this.size,0,Math.PI*2);
+    ctxFairy.fillStyle = `rgba(255,255,200,${this.life/80})`;
+    ctxFairy.fill();
   }
 }
 
-function animateMagic(){
-  ctxMagic.clearRect(0,0,400,120);
+/* trayectoria */
+let path = [
+  {x:50, y:hF*0.7},
+  {x:wF*0.3, y:hF*0.3},
+  {x:wF*0.6, y:hF*0.8},
+  {x:wF*0.8, y:hF*0.2},
+  {x:wF*0.5, y:hF*0.3} // cerca del texto
+];
 
-  let x=progress;
-  let y=60 + Math.sin(progress*0.05)*10;
+let step = 0;
+let current = {x:path[0].x, y:path[0].y};
 
-  for(let i=0;i<5;i++){
-    particlesMagic.push(new Spark(x,y));
+function animateFairy(){
+
+  ctxFairy.fillStyle = "rgba(0,0,0,0.08)";
+  ctxFairy.fillRect(0,0,wF,hF);
+
+  let target = path[step+1];
+
+  let dx = target.x - current.x;
+  let dy = target.y - current.y;
+
+  current.x += dx * 0.02;
+  current.y += dy * 0.02;
+
+  for(let i=0;i<6;i++){
+    fairyParticles.push(new Fairy(current.x,current.y));
   }
 
-  ctxMagic.beginPath();
-  ctxMagic.moveTo(0,60);
-  ctxMagic.lineTo(x,y);
-  ctxMagic.strokeStyle="#00eaff";
-  ctxMagic.lineWidth=2;
-  ctxMagic.shadowBlur=15;
-  ctxMagic.shadowColor="#00eaff";
-  ctxMagic.stroke();
-
-  particlesMagic.forEach((p,i)=>{
+  fairyParticles.forEach((p,i)=>{
     p.update();
     p.draw();
-    if(p.life<=0) particlesMagic.splice(i,1);
+    if(p.life<=0) fairyParticles.splice(i,1);
   });
 
-  progress+=6;
-
-  if(progress<320){
-    requestAnimationFrame(animateMagic);
-  }else{
-    flashEffect();
+  if(Math.abs(dx)<5 && Math.abs(dy)<5){
+    step++;
+    if(step >= path.length-1){
+      revealText();
+      return;
+    }
   }
+
+  requestAnimationFrame(animateFairy);
 }
 
-function flashEffect(){
-  ctxMagic.fillStyle="rgba(255,255,255,0.8)";
-  ctxMagic.fillRect(280,0,120,120);
+function revealText(){
+  const text = document.querySelector(".logo-title span");
+
+  ctxFairy.fillStyle = "rgba(255,255,255,0.8)";
+  ctxFairy.fillRect(current.x-100,current.y-50,200,100);
 
   setTimeout(()=>{
-    text.classList.add("show-text");
-    ctxMagic.clearRect(0,0,400,120);
+    text.classList.add("show-25");
   },150);
 }
 
-setTimeout(animateMagic,800);
+setTimeout(animateFairy,1000);
 </script>
 
 <!-- COUNTDOWN -->
 <script>
 const eventDate = new Date("2026-05-08T20:00:00-03:00").getTime();
 
+const daysEl = document.getElementById("days");
+const hoursEl = document.getElementById("hours");
+const minutesEl = document.getElementById("minutes");
+const secondsEl = document.getElementById("seconds");
+
 function updateCountdown(){
   const now = new Date().getTime();
-  const d = eventDate - now;
+  const distance = eventDate - now;
 
-  if(d<0) return;
+  if(distance < 0) return;
 
-  document.getElementById("days").innerHTML = String(Math.floor(d/(1000*60*60*24))).padStart(2,"0");
-  document.getElementById("hours").innerHTML = String(Math.floor((d%(1000*60*60*24))/(1000*60*60))).padStart(2,"0");
-  document.getElementById("minutes").innerHTML = String(Math.floor((d%(1000*60*60))/(1000*60))).padStart(2,"0");
-  document.getElementById("seconds").innerHTML = String(Math.floor((d%(1000*60))/1000)).padStart(2,"0");
+  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+  daysEl.innerHTML = String(days).padStart(2,"0");
+  hoursEl.innerHTML = String(hours).padStart(2,"0");
+  minutesEl.innerHTML = String(minutes).padStart(2,"0");
+  secondsEl.innerHTML = String(seconds).padStart(2,"0");
 }
 
 setInterval(updateCountdown,1000);
