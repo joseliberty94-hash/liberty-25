@@ -6,33 +6,11 @@
 <title>Registro 25 años</title>
 
 <link rel="stylesheet" href="style.css">
-
-<style>
-/* canvas de escritura */
-#fairyCanvas{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  pointer-events:none;
-  z-index:3;
-}
-
-/* asegurar que el texto esté encima */
-.logo-title span{
-  opacity:0;
-  position:relative;
-  z-index:2;
-}
-</style>
-
 </head>
 
 <body>
 
 <canvas id="particles"></canvas>
-<canvas id="fairyCanvas"></canvas>
 
 <section id="section1">
         
@@ -102,7 +80,7 @@ data-type="inline"></script>
   </div>
 </div>
 
-<!-- PARTICULAS FONDO -->
+<!-- PARTICULAS -->
 <script>
 const canvas = document.getElementById("particles");
 const ctx = canvas.getContext("2d");
@@ -148,152 +126,17 @@ function init() {
   for (let i = 0; i < num; i++) particles.push(new Particle());
 }
 
-function animateParticles() {
+function animate() {
   ctx.clearRect(0, 0, w, h);
   particles.forEach(p => { p.update(); p.draw(); });
-  requestAnimationFrame(animateParticles);
+  requestAnimationFrame(animate);
 }
 
 init();
-animateParticles();
+animate();
 </script>
 
-<!-- ✨ ESCRITURA CON POLVO -->
-<script>
-const fairyCanvas = document.getElementById("fairyCanvas");
-const fctx = fairyCanvas.getContext("2d");
-
-let fw = fairyCanvas.width = window.innerWidth;
-let fh = fairyCanvas.height = window.innerHeight;
-
-window.addEventListener("resize", ()=>{
-  fw = fairyCanvas.width = window.innerWidth;
-  fh = fairyCanvas.height = window.innerHeight;
-});
-
-let trail = [];
-let path = [];
-let head = {x:0,y:0};
-
-/* GENERAR CAMINO CONTINUO */
-function getPath(el){
-  const rect = el.getBoundingClientRect();
-
-  const temp = document.createElement("canvas");
-  const tctx = temp.getContext("2d");
-
-  temp.width = rect.width;
-  temp.height = rect.height;
-
-  tctx.fillStyle = "#fff";
-  tctx.font = "700 48px Inter";
-  tctx.textAlign = "center";
-  tctx.textBaseline = "middle";
-  tctx.fillText("25 AÑOS", rect.width/2, rect.height/2);
-
-  const data = tctx.getImageData(0,0,temp.width,temp.height);
-
-  let pts = [];
-
-  for(let y=0;y<data.height;y+=2){
-    for(let x=0;x<data.width;x+=2){
-      const i = (y * data.width + x) * 4;
-      if(data.data[i+3] > 128){
-        pts.push({
-          x: rect.left + x,
-          y: rect.top + y
-        });
-      }
-    }
-  }
-
-  // ordenar para simular escritura continua
-  pts.sort((a,b)=>{
-    if(Math.abs(a.y - b.y) < 8){
-      return a.x - b.x;
-    }
-    return a.y - b.y;
-  });
-
-  return pts;
-}
-
-/* ANIMACIÓN */
-function writeText(){
-  const text = document.querySelector(".logo-title span");
-  path = getPath(text);
-
-  let i = 0;
-
-  head.x = path[0].x;
-  head.y = path[0].y;
-
-  function animate(){
-
-    fctx.clearRect(0,0,fw,fh);
-
-    // estela
-    trail.forEach((p,index)=>{
-      fctx.beginPath();
-      fctx.arc(p.x,p.y,p.size,0,Math.PI*2);
-      fctx.fillStyle = `rgba(200,210,220,${p.life})`;
-      fctx.fill();
-
-      p.life -= 0.025;
-      p.size *= 0.97;
-
-      if(p.life <= 0){
-        trail.splice(index,1);
-      }
-    });
-
-    // ⚡ velocidad rápida (clave)
-    for(let step=0; step<20; step++){
-      if(i < path.length){
-
-        let target = path[i];
-
-        head.x += (target.x - head.x) * 0.35;
-        head.y += (target.y - head.y) * 0.35;
-
-        trail.push({
-          x: head.x,
-          y: head.y,
-          life: 1,
-          size: 2.2
-        });
-
-        if(Math.hypot(head.x - target.x, head.y - target.y) < 1.5){
-          i++;
-        }
-      }
-    }
-
-    // punta brillante ✨
-    fctx.beginPath();
-    fctx.arc(head.x, head.y, 3, 0, Math.PI*2);
-    fctx.fillStyle = "rgba(255,255,255,1)";
-    fctx.fill();
-
-    if(i < path.length || trail.length > 0){
-      requestAnimationFrame(animate);
-    } else {
-      text.style.opacity = 1;
-
-      setTimeout(()=>{
-        fctx.clearRect(0,0,fw,fh);
-      },200);
-    }
-  }
-
-  animate();
-}
-
-window.onload = ()=>{
-  setTimeout(writeText,500);
-};
-</script>
-  <!-- COUNTDOWN -->
+<!-- COUNTDOWN -->
 <script>
 const eventDate = new Date("2026-05-08T20:00:00-03:00").getTime();
 
