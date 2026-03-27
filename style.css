@@ -10,12 +10,16 @@ body{
   overflow-x:hidden;
   background: linear-gradient(
   to bottom,
-  #050b1f 0%,     /* azul oscuro arriba */
+  #050b1f 0%,
+  #08122b 15%,
   #0a1635 30%,
-  #113158 55%,
-  #366171 65%,    /* último azul */
-  #e6f7ff 85%,    /* transición */
-  #ffffff 100%    /* blanco abajo */
+  #0f2445 45%,
+  #113158 60%,
+  #2a4f68 70%,
+  #366171 78%,
+  #5f8f9e 85%,
+  #cfe8f3 95%,
+  #ffffff 100%
 );
   color:white;
 }
