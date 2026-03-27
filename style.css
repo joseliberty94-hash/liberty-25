@@ -179,7 +179,7 @@ canvas{
 
 .sponsors-track img{
   height:60px;
-  opacity:0.9;
+  opacity:0;
   transition:0.3s ease;
 }
 
