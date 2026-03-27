@@ -173,7 +173,9 @@ window.addEventListener("resize", ()=>{
 
 let trail = [];
 let points = [];
+let head = {x:0,y:0};
 
+/* GENERAR TEXTO */
 function getTextPoints(el){
   const rect = el.getBoundingClientRect();
 
@@ -202,42 +204,79 @@ function getTextPoints(el){
     }
   }
 
-  return pts.sort((a,b)=> a.x - b.x);
+  // orden tipo escritura real (líneas)
+  return pts.sort((a,b)=>{
+    if(Math.abs(a.y - b.y) < 6){
+      return a.x - b.x;
+    }
+    return a.y - b.y;
+  });
 }
 
+/* ANIMACIÓN */
 function writeText(){
   const text = document.querySelector(".logo-title span");
   points = getTextPoints(text);
 
   let i = 0;
 
+  // punto inicial (izquierda del texto)
+  head.x = points[0].x - 40;
+  head.y = points[0].y;
+
   function animate(){
 
     fctx.clearRect(0,0,fw,fh);
 
+    // dibujar estela
     trail.forEach((p,index)=>{
       fctx.beginPath();
-      fctx.arc(p.x,p.y,2,0,Math.PI*2);
+      fctx.arc(p.x,p.y,p.size,0,Math.PI*2);
       fctx.fillStyle = `rgba(200,210,220,${p.life})`;
       fctx.fill();
 
-      p.life -= 0.02;
-      if(p.life <= 0) trail.splice(index,1);
+      p.life -= 0.015;
+      p.size *= 0.99;
+
+      if(p.life <= 0){
+        trail.splice(index,1);
+      }
     });
 
-    for(let k=0;k<10;k++){
-      if(i < points.length){
-        let p = points[i];
-        trail.push({x:p.x,y:p.y,life:1});
+    // mover la "punta"
+    if(i < points.length){
+      let target = points[i];
+
+      head.x += (target.x - head.x) * 0.2;
+      head.y += (target.y - head.y) * 0.2;
+
+      trail.push({
+        x: head.x,
+        y: head.y,
+        life: 1,
+        size: 2.5
+      });
+
+      // avanzar más natural
+      if(Math.hypot(head.x - target.x, head.y - target.y) < 1){
         i++;
       }
     }
+
+    // ✨ dibujar punta brillante
+    fctx.beginPath();
+    fctx.arc(head.x, head.y, 3, 0, Math.PI*2);
+    fctx.fillStyle = "rgba(255,255,255,0.95)";
+    fctx.fill();
 
     if(i < points.length || trail.length > 0){
       requestAnimationFrame(animate);
     } else {
       text.style.opacity = 1;
-      setTimeout(()=> fctx.clearRect(0,0,fw,fh),300);
+
+      setTimeout(()=>{
+        fctx.clearRect(0,0,fw,fh);
+      },300);
     }
   }
 
@@ -248,7 +287,6 @@ window.onload = ()=>{
   setTimeout(writeText,600);
 };
 </script>
-
 <!-- COUNTDOWN -->
 <script>
 const eventDate = new Date("2026-05-08T20:00:00-03:00").getTime();
