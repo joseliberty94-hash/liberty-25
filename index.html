@@ -262,20 +262,47 @@ if(radius < 8) radius = 8;
 function revealText(center){
   const text = document.querySelector(".logo-title span");
 
-  // pequeña explosión mágica
-  for(let i=0;i<50;i++){
+  // pequeña explosión inicial ✨
+  for(let i=0;i<40;i++){
     fairyParticles.push(new Fairy(center.x, center.y));
   }
 
+  // mostrar texto
   setTimeout(()=>{
     text.classList.add("show-25");
-  },100);
+  },80);
 
-  // limpiar todo el polvo
+  // 💨 DESVANECER SUAVEMENTE EL POLVO
+  let fade = 1;
+
+  function fadeOut(){
+    fade -= 0.05;
+
+    ctxFairy.fillStyle = `rgba(0,0,0,${1 - fade})`;
+    ctxFairy.fillRect(0,0,wF,hF);
+
+    fairyParticles.forEach((p,i)=>{
+      p.update();
+      ctxFairy.beginPath();
+      ctxFairy.arc(p.x,p.y,p.size,0,Math.PI*2);
+      ctxFairy.fillStyle = `rgba(220,230,255,${(p.life/40)*fade})`;
+      ctxFairy.fill();
+
+      if(p.life<=0) fairyParticles.splice(i,1);
+    });
+
+    if(fade > 0){
+      requestAnimationFrame(fadeOut);
+    } else {
+      // limpiar todo completamente
+      ctxFairy.clearRect(0,0,wF,hF);
+      fairyParticles = [];
+    }
+  }
+
   setTimeout(()=>{
-    ctxFairy.clearRect(0,0,wF,hF);
-    fairyParticles = [];
-  },500);
+    fadeOut();
+  },150); // empieza a desaparecer rápido
 }
 
 /* INICIAR */
