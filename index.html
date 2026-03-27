@@ -259,56 +259,100 @@ if(radius < 8) radius = 8;
 }
 
 /* REVELAR TEXTO */
-function revealText(center){
+function revealText(){
+
   const text = document.querySelector(".logo-title span");
 
-  // mostrar texto
-  text.classList.add("show-25");
+  // ocultamos el texto real al inicio
+  text.style.opacity = 0;
 
-  // ✨ explosión suave inicial
-  for(let i=0;i<60;i++){
-    fairyParticles.push(new Fairy(center.x, center.y));
-  }
+  const rect = text.getBoundingClientRect();
 
-  // convertir partículas en dispersión
-  fairyParticles.forEach(p=>{
-    p.vx = (Math.random() - 0.5) * 2.5;
-p.vy = (Math.random() - 0.5) * 2.5;
-    p.life = 200;
-  });
+  // crear canvas temporal para leer píxeles del texto
+  const tempCanvas = document.createElement("canvas");
+  const tempCtx = tempCanvas.getContext("2d");
 
-  function disperse(){
-    ctxFairy.clearRect(0,0,wF,hF);
+  tempCanvas.width = rect.width;
+  tempCanvas.height = rect.height;
 
-    fairyParticles.forEach((p,i)=>{
-      p.update();
+  tempCtx.fillStyle = "#ffffff";
+  tempCtx.font = "700 48px Inter";
+  tempCtx.textAlign = "center";
+  tempCtx.textBaseline = "middle";
+  tempCtx.fillText("25 AÑOS", rect.width / 2, rect.height / 2);
 
-      // fade progresivo
-      let opacity = p.life / 60;
+  const imageData = tempCtx.getImageData(0,0,tempCanvas.width,tempCanvas.height);
 
-      ctxFairy.beginPath();
-      ctxFairy.arc(p.x,p.y,p.size,0,Math.PI*2);
-      ctxFairy.fillStyle = `rgba(220,230,255,${opacity})`;
-      ctxFairy.fill();
+  let points = [];
 
-      p.life--;
-
-      if(p.life <= 0){
-        fairyParticles.splice(i,1);
+  // detectar puntos del texto
+  for(let y=0; y<imageData.height; y+=4){
+    for(let x=0; x<imageData.width; x+=4){
+      const index = (y * imageData.width + x) * 4;
+      if(imageData.data[index+3] > 128){
+        points.push({
+          x: rect.left + x,
+          y: rect.top + y
+        });
       }
-    });
-
-    if(fairyParticles.length > 0){
-      requestAnimationFrame(disperse);
-    } else {
-      // limpieza final
-      ctxFairy.clearRect(0,0,wF,hF);
     }
   }
 
-  setTimeout(()=>{
-    disperse();
-  },80);
+  // crear partículas desde un punto inicial (izquierda)
+  fairyParticles = points.map((p,i)=>({
+    x: rect.left - 50,
+    y: rect.top + rect.height/2,
+    tx: p.x,
+    ty: p.y,
+    life: 100,
+    delay: i * 0.5
+  }));
+
+  function draw(){
+    ctxFairy.clearRect(0,0,wF,hF);
+
+    let active = false;
+
+    fairyParticles.forEach(p=>{
+
+      if(p.delay > 0){
+        p.delay--;
+        return;
+      }
+
+      // movimiento hacia destino
+      p.x += (p.tx - p.x) * 0.08;
+      p.y += (p.ty - p.y) * 0.08;
+
+      let dx = p.tx - p.x;
+      let dy = p.ty - p.y;
+      let dist = Math.sqrt(dx*dx + dy*dy);
+
+      if(dist > 0.5){
+        active = true;
+      }
+
+      ctxFairy.beginPath();
+      ctxFairy.arc(p.x,p.y,1.5,0,Math.PI*2);
+      ctxFairy.fillStyle = "rgba(220,230,255,0.9)";
+      ctxFairy.fill();
+    });
+
+    if(active){
+      requestAnimationFrame(draw);
+    } else {
+      // mostrar texto real cuando termina
+      text.style.opacity = 1;
+
+      // fade final
+      setTimeout(()=>{
+        ctxFairy.clearRect(0,0,wF,hF);
+        fairyParticles = [];
+      },300);
+    }
+  }
+
+  draw();
 }
   /* INICIAR */
 setTimeout(()=>{
