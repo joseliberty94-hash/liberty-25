@@ -182,9 +182,9 @@ class Fairy {
     this.x = x;
     this.y = y;
     this.size = Math.random()*2+1;
-    this.vx = (Math.random()-0.5)*1.5;
-    this.vy = (Math.random()-0.5)*1.5;
-    this.life = 50;
+    this.vx = (Math.random()-0.5)*1.2;
+    this.vy = (Math.random()-0.5)*1.2;
+    this.life = 40;
   }
 
   update(){
@@ -196,13 +196,13 @@ class Fairy {
   draw(){
     ctxFairy.beginPath();
     ctxFairy.arc(this.x,this.y,this.size,0,Math.PI*2);
-    ctxFairy.fillStyle = `rgba(255,255,180,${this.life/50})`;
+    ctxFairy.fillStyle = `rgba(255,255,180,${this.life/40})`;
     ctxFairy.fill();
   }
 }
 
-/* POSICIÓN DEL LOGO */
-function getLogoPosition(){
+/* CENTRO DEL LOGO */
+function getLogoCenter(){
   const logo = document.querySelector(".logo-title");
   const rect = logo.getBoundingClientRect();
   return {
@@ -211,117 +211,69 @@ function getLogoPosition(){
   };
 }
 
-/* CAMINO */
-let current = {x:50, y:hF*0.8};
-let targetPoints = [];
+/* ESPIRAL */
+let angle = 0;
 
-function buildPath(){
-  const logoPos = getLogoPosition();
-
-  targetPoints = [
-    {x:50, y:hF*0.8},
-    {x:wF*0.3, y:hF*0.2},
-    {x:wF*0.7, y:hF*0.7},
-    {x:wF*0.9, y:hF*0.3},
-    logoPos // llega al logo
-  ];
-}
-
-let step = 0;
-let spiralMode = false;
-let spiralAngle = 0;
-
-/* ANIMACIÓN */
-function animateFairy(){
+function animateSpiral(){
 
   ctxFairy.clearRect(0,0,wF,hF);
 
-  // ✨ MODO ESPIRAL
-  if(spiralMode){
-    const center = getLogoPosition();
+  const center = getLogoCenter();
 
-    let radius = 80 - spiralAngle * 10; // se va cerrando
-    if(radius < 10) radius = 10;
+  let radius = 80 - angle * 8; // se cierra la espiral
+  if(radius < 5) radius = 5;
 
-    current.x = center.x + Math.cos(spiralAngle) * radius;
-    current.y = center.y + Math.sin(spiralAngle) * radius;
+  let x = center.x + Math.cos(angle) * radius;
+  let y = center.y + Math.sin(angle) * radius;
 
-    spiralAngle += 0.25;
-
-    for(let i=0;i<10;i++){
-      fairyParticles.push(new Fairy(current.x,current.y));
-    }
-
-    fairyParticles.forEach((p,i)=>{
-      p.update();
-      p.draw();
-      if(p.life<=0) fairyParticles.splice(i,1);
-    });
-
-    // cuando termina espiral → revelar
-    if(spiralAngle > Math.PI * 4){
-      revealText();
-      return;
-    }
-
-    requestAnimationFrame(animateFairy);
-    return;
+  // generar polvo
+  for(let i=0;i<10;i++){
+    fairyParticles.push(new Fairy(x,y));
   }
 
-  // 🛫 RECORRIDO NORMAL
-  let target = targetPoints[step+1];
-
-  let dx = target.x - current.x;
-  let dy = target.y - current.y;
-
-  current.x += dx * 0.06;
-  current.y += dy * 0.06;
-
-  for(let i=0;i<8;i++){
-    fairyParticles.push(new Fairy(current.x,current.y));
-  }
-
+  // dibujar partículas
   fairyParticles.forEach((p,i)=>{
     p.update();
     p.draw();
     if(p.life<=0) fairyParticles.splice(i,1);
   });
 
-  if(Math.abs(dx)<5 && Math.abs(dy)<5){
-    step++;
-    if(step >= targetPoints.length-1){
-      spiralMode = true; // 🔥 activa espiral
-    }
+  angle += 0.25;
+
+  // cuando termina la espiral
+  if(angle > Math.PI * 3){
+    revealText(center);
+    return;
   }
 
-  requestAnimationFrame(animateFairy);
+  requestAnimationFrame(animateSpiral);
 }
 
 /* REVELAR TEXTO */
-function revealText(){
+function revealText(center){
   const text = document.querySelector(".logo-title span");
 
-  // mini explosión mágica ✨
-  for(let i=0;i<60;i++){
-    fairyParticles.push(new Fairy(current.x,current.y));
+  // pequeña explosión mágica
+  for(let i=0;i<50;i++){
+    fairyParticles.push(new Fairy(center.x, center.y));
   }
 
   setTimeout(()=>{
     text.classList.add("show-25");
-  },120);
+  },100);
 
+  // limpiar todo el polvo
   setTimeout(()=>{
     ctxFairy.clearRect(0,0,wF,hF);
-  },800);
+    fairyParticles = [];
+  },500);
 }
 
 /* INICIAR */
 setTimeout(()=>{
-  buildPath();
-  animateFairy();
+  animateSpiral();
 },600);
 </script>
-
 <!-- COUNTDOWN -->
 <script>
 const eventDate = new Date("2026-05-08T20:00:00-03:00").getTime();
