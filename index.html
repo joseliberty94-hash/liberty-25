@@ -8,26 +8,22 @@
 <link rel="stylesheet" href="style.css">
 
 <style>
-/* CANVAS DEL POLVO DE HADA */
-#fairyTrail{
+/* canvas de escritura */
+#fairyCanvas{
   position:fixed;
   top:0;
   left:0;
   width:100%;
   height:100%;
   pointer-events:none;
-  z-index:5;
+  z-index:3;
 }
 
-/* TEXTO OCULTO HASTA EL FINAL */
+/* asegurar que el texto esté encima */
 .logo-title span{
   opacity:0;
-  transition:all 0.6s ease;
-}
-
-.show-25{
-  opacity:1 !important;
-  text-shadow: 0 0 10px #00eaff, 0 0 30px #00eaff;
+  position:relative;
+  z-index:2;
 }
 </style>
 
@@ -36,7 +32,7 @@
 <body>
 
 <canvas id="particles"></canvas>
-<canvas id="fairyTrail"></canvas>
+<canvas id="fairyCanvas"></canvas>
 
 <section id="section1">
         
@@ -106,7 +102,7 @@ data-type="inline"></script>
   </div>
 </div>
 
-<!-- PARTICULAS -->
+<!-- PARTICULAS FONDO -->
 <script>
 const canvas = document.getElementById("particles");
 const ctx = canvas.getContext("2d");
@@ -152,213 +148,107 @@ function init() {
   for (let i = 0; i < num; i++) particles.push(new Particle());
 }
 
-function animate() {
+function animateParticles() {
   ctx.clearRect(0, 0, w, h);
   particles.forEach(p => { p.update(); p.draw(); });
-  requestAnimationFrame(animate);
+  requestAnimationFrame(animateParticles);
 }
 
 init();
-animate();
+animateParticles();
 </script>
 
+<!-- ✨ ESCRITURA CON POLVO -->
 <script>
-const canvasFairy = document.getElementById("fairyTrail");
-const ctxFairy = canvasFairy.getContext("2d");
+const fairyCanvas = document.getElementById("fairyCanvas");
+const fctx = fairyCanvas.getContext("2d");
 
-let wF = canvasFairy.width = window.innerWidth;
-let hF = canvasFairy.height = window.innerHeight;
+let fw = fairyCanvas.width = window.innerWidth;
+let fh = fairyCanvas.height = window.innerHeight;
 
 window.addEventListener("resize", ()=>{
-  wF = canvasFairy.width = window.innerWidth;
-  hF = canvasFairy.height = window.innerHeight;
+  fw = fairyCanvas.width = window.innerWidth;
+  fh = fairyCanvas.height = window.innerHeight;
 });
 
-/* PARTÍCULAS */
-let fairyParticles = [];
+let trail = [];
+let points = [];
 
-class Fairy {
-  constructor(x,y){
-    this.x = x;
-    this.y = y;
-    this.size = Math.random()*2+1;
-    this.vx = (Math.random()-0.5)*1.2;
-    this.vy = (Math.random()-0.5)*1.2;
-    this.life = 40;
-  }
+function getTextPoints(el){
+  const rect = el.getBoundingClientRect();
 
-  update(){
-    this.x += this.vx;
-    this.y += this.vy;
-    this.life--;
-  }
+  const temp = document.createElement("canvas");
+  const tctx = temp.getContext("2d");
 
-  draw(){
-    ctxFairy.beginPath();
-    ctxFairy.arc(this.x,this.y,this.size,0,Math.PI*2);
-    ctxFairy.fillStyle = `rgba(220,230,255,${this.life/40})`;
-    ctxFairy.fill();
-  }
-}
+  temp.width = rect.width;
+  temp.height = rect.height;
 
-/* CENTRO DEL LOGO */
-function getLogoCenter(){
-  const logo = document.querySelector(".logo-title");
-  const rect = logo.getBoundingClientRect();
-  return {
-    x: rect.left + rect.width/2,
-    y: rect.top + rect.height/2
-  };
-}
+  tctx.fillStyle = "#fff";
+  tctx.font = "700 48px Inter";
+  tctx.textAlign = "center";
+  tctx.textBaseline = "middle";
+  tctx.fillText("25 AÑOS", rect.width/2, rect.height/2);
 
-/* ESPIRAL */
-let angle = 0;
+  const data = tctx.getImageData(0,0,temp.width,temp.height);
 
-function animateSpiral(){
+  let pts = [];
 
-  ctxFairy.clearRect(0,0,wF,hF);
-
-  const center = getLogoCenter();
-
-  const logo = document.querySelector(".logo-title");
-const rect = logo.getBoundingClientRect();
-
-// radio basado en tamaño real del logo 🔥
-let baseRadius = Math.max(rect.width, rect.height) * 0.6;
-
-// espiral que envuelve todo el logo
-let radius = baseRadius - angle * (baseRadius / 10);
-
-// mínimo para cerrar en el centro
-if(radius < 8) radius = 8;
-
-  let x = center.x + Math.cos(angle) * radius;
-  let y = center.y + Math.sin(angle) * radius;
-
-  // generar polvo
-  for(let i=0;i<10;i++){
-    fairyParticles.push(new Fairy(x,y));
-  }
-
-  // dibujar partículas
-  fairyParticles.forEach((p,i)=>{
-    p.update();
-    p.draw();
-    if(p.life<=0) fairyParticles.splice(i,1);
-  });
-
-  angle += 0.25;
-
-  // cuando termina la espiral
-  if(angle > Math.PI * 3){
-    revealText(center);
-    return;
-  }
-
-  requestAnimationFrame(animateSpiral);
-}
-
-/* REVELAR TEXTO */
-function revealText(){
-
-  const text = document.querySelector(".logo-title span");
-
-  // ocultamos el texto real al inicio
-  text.style.opacity = 0;
-
-  const rect = text.getBoundingClientRect();
-
-  // crear canvas temporal para leer píxeles del texto
-  const tempCanvas = document.createElement("canvas");
-  const tempCtx = tempCanvas.getContext("2d");
-
-  tempCanvas.width = rect.width;
-  tempCanvas.height = rect.height;
-
-  tempCtx.fillStyle = "#ffffff";
-  tempCtx.font = "700 48px Inter";
-  tempCtx.textAlign = "center";
-  tempCtx.textBaseline = "middle";
-  tempCtx.fillText("25 AÑOS", rect.width / 2, rect.height / 2);
-
-  const imageData = tempCtx.getImageData(0,0,tempCanvas.width,tempCanvas.height);
-
-  let points = [];
-
-  // detectar puntos del texto
-  for(let y=0; y<imageData.height; y+=4){
-    for(let x=0; x<imageData.width; x+=4){
-      const index = (y * imageData.width + x) * 4;
-      if(imageData.data[index+3] > 128){
-        points.push({
-          x: rect.left + x,
-          y: rect.top + y
-        });
+  for(let y=0;y<data.height;y+=3){
+    for(let x=0;x<data.width;x+=3){
+      const i = (y * data.width + x) * 4;
+      if(data.data[i+3] > 128){
+        pts.push({x: rect.left + x, y: rect.top + y});
       }
     }
   }
 
-  // crear partículas desde un punto inicial (izquierda)
-  fairyParticles = points.map((p,i)=>({
-    x: rect.left - 50,
-    y: rect.top + rect.height/2,
-    tx: p.x,
-    ty: p.y,
-    life: 100,
-    delay: i * 0.5
-  }));
+  return pts.sort((a,b)=> a.x - b.x);
+}
 
-  function draw(){
-    ctxFairy.clearRect(0,0,wF,hF);
+function writeText(){
+  const text = document.querySelector(".logo-title span");
+  points = getTextPoints(text);
 
-    let active = false;
+  let i = 0;
 
-    fairyParticles.forEach(p=>{
+  function animate(){
 
-      if(p.delay > 0){
-        p.delay--;
-        return;
-      }
+    fctx.clearRect(0,0,fw,fh);
 
-      // movimiento hacia destino
-      p.x += (p.tx - p.x) * 0.08;
-      p.y += (p.ty - p.y) * 0.08;
+    trail.forEach((p,index)=>{
+      fctx.beginPath();
+      fctx.arc(p.x,p.y,2,0,Math.PI*2);
+      fctx.fillStyle = `rgba(200,210,220,${p.life})`;
+      fctx.fill();
 
-      let dx = p.tx - p.x;
-      let dy = p.ty - p.y;
-      let dist = Math.sqrt(dx*dx + dy*dy);
-
-      if(dist > 0.5){
-        active = true;
-      }
-
-      ctxFairy.beginPath();
-      ctxFairy.arc(p.x,p.y,1.5,0,Math.PI*2);
-      ctxFairy.fillStyle = "rgba(220,230,255,0.9)";
-      ctxFairy.fill();
+      p.life -= 0.02;
+      if(p.life <= 0) trail.splice(index,1);
     });
 
-    if(active){
-      requestAnimationFrame(draw);
-    } else {
-      // mostrar texto real cuando termina
-      text.style.opacity = 1;
+    for(let k=0;k<10;k++){
+      if(i < points.length){
+        let p = points[i];
+        trail.push({x:p.x,y:p.y,life:1});
+        i++;
+      }
+    }
 
-      // fade final
-      setTimeout(()=>{
-        ctxFairy.clearRect(0,0,wF,hF);
-        fairyParticles = [];
-      },300);
+    if(i < points.length || trail.length > 0){
+      requestAnimationFrame(animate);
+    } else {
+      text.style.opacity = 1;
+      setTimeout(()=> fctx.clearRect(0,0,fw,fh),300);
     }
   }
 
-  draw();
+  animate();
 }
-  /* INICIAR */
-setTimeout(()=>{
-  animateSpiral();
-},600);
+
+window.onload = ()=>{
+  setTimeout(writeText,600);
+};
 </script>
+
 <!-- COUNTDOWN -->
 <script>
 const eventDate = new Date("2026-05-08T20:00:00-03:00").getTime();
@@ -372,7 +262,13 @@ function updateCountdown(){
   const now = new Date().getTime();
   const distance = eventDate - now;
 
-  if(distance < 0) return;
+  if(distance < 0){
+    daysEl.innerHTML = "00";
+    hoursEl.innerHTML = "00";
+    minutesEl.innerHTML = "00";
+    secondsEl.innerHTML = "00";
+    return;
+  }
 
   const days = Math.floor(distance / (1000 * 60 * 60 * 24));
   const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
