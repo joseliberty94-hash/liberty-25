@@ -136,14 +136,36 @@ canvas{
 .sponsors-wrapper{
   width:100%;
   overflow:hidden;
-  padding-bottom:10%;
+  padding:50px 0;
+
+  /* fondo oscuro para contraste */
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(5,11,31,0.6),
+    rgba(5,11,31,0.95)
+  );
+
+  backdrop-filter: blur(10px);
+  position: relative;
+}
+
+/* texto opcional */
+.sponsors-wrapper::before{
+  content:"SPONSORS";
+  display:block;
+  text-align:center;
+  margin-bottom:20px;
+  letter-spacing:4px;
+  font-size:12px;
+  opacity:0.6;
 }
 
 .sponsors-track{
   display:flex;
-  gap:60px;
+  gap:80px;
   width:max-content;
-  animation: scrollSponsors 25s linear infinite;
+  animation: scrollSponsors 40s linear infinite;
 }
 
 @keyframes scrollSponsors{
@@ -152,12 +174,21 @@ canvas{
 }
 
 .sponsors-track img{
-  height:40px;
-  transition:0.4s;
+  height:70px; /* MÁS GRANDES */
+  opacity:0.75;
+
+  /* los hace blancos (clave si fondo es oscuro) */
+  filter: brightness(0) invert(1);
+
+  transition: all 0.4s ease;
 }
 
 .sponsors-track img:hover{
-  transform: scale(1.15);
+  transform: scale(1.2);
+  opacity:1;
+
+  /* glow azul estilo tu web */
+  filter: brightness(0) invert(1) drop-shadow(0 0 12px #00e0ff);
 }
 
 .sponsors-wrapper:hover .sponsors-track{
