@@ -6,15 +6,15 @@
 }
 
 body{
-  height:100vh;
-  overflow:hidden;
+  min-height:100vh;
+  overflow-x:hidden;
   background: linear-gradient(
   to bottom,
   #050b1f 0%,     /* azul oscuro arriba */
   #0a1635 30%,
   #113158 55%,
   #366171 70%,    /* último azul */
-  #e6f7ff 80%,    /* transición */
+  #e6f7ff 85%,    /* transición */
   #ffffff 100%    /* blanco abajo */
 );
   color:white;
