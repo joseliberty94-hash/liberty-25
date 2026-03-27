@@ -262,49 +262,52 @@ if(radius < 8) radius = 8;
 function revealText(center){
   const text = document.querySelector(".logo-title span");
 
-  // pequeña explosión inicial ✨
+  // mostrar texto apenas empieza la absorción
+  text.classList.add("show-25");
+
+  let absorbProgress = 0;
+
+  function absorb(){
+    ctxFairy.clearRect(0,0,wF,hF);
+
+    absorbProgress += 0.04;
+
+    fairyParticles.forEach((p,i)=>{
+
+      // mover cada partícula hacia el centro (texto)
+      p.x += (center.x - p.x) * 0.08;
+      p.y += (center.y - p.y) * 0.08;
+
+      p.life -= 1.5;
+
+      ctxFairy.beginPath();
+      ctxFairy.arc(p.x,p.y,p.size,0,Math.PI*2);
+      ctxFairy.fillStyle = `rgba(220,230,255,${p.life/40})`;
+      ctxFairy.fill();
+
+      if(p.life <= 0){
+        fairyParticles.splice(i,1);
+      }
+    });
+
+    // seguir animando mientras queden partículas
+    if(fairyParticles.length > 0){
+      requestAnimationFrame(absorb);
+    } else {
+      // limpieza final perfecta
+      ctxFairy.clearRect(0,0,wF,hF);
+    }
+  }
+
+  // pequeña explosión previa ✨ (opcional pero queda brutal)
   for(let i=0;i<40;i++){
     fairyParticles.push(new Fairy(center.x, center.y));
   }
 
-  // mostrar texto
   setTimeout(()=>{
-    text.classList.add("show-25");
+    absorb();
   },80);
-
-  // 💨 DESVANECER SUAVEMENTE EL POLVO
-  let fade = 1;
-
-  function fadeOut(){
-    fade -= 0.05;
-
-    ctxFairy.fillStyle = `rgba(0,0,0,${1 - fade})`;
-    ctxFairy.fillRect(0,0,wF,hF);
-
-    fairyParticles.forEach((p,i)=>{
-      p.update();
-      ctxFairy.beginPath();
-      ctxFairy.arc(p.x,p.y,p.size,0,Math.PI*2);
-      ctxFairy.fillStyle = `rgba(220,230,255,${(p.life/40)*fade})`;
-      ctxFairy.fill();
-
-      if(p.life<=0) fairyParticles.splice(i,1);
-    });
-
-    if(fade > 0){
-      requestAnimationFrame(fadeOut);
-    } else {
-      // limpiar todo completamente
-      ctxFairy.clearRect(0,0,wF,hF);
-      fairyParticles = [];
-    }
-  }
-
-  setTimeout(()=>{
-    fadeOut();
-  },150); // empieza a desaparecer rápido
 }
-
 /* INICIAR */
 setTimeout(()=>{
   animateSpiral();
