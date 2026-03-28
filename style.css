@@ -1,5 +1,5 @@
 *{
-  margin:0 auto;
+  margin:0;
   padding:0;
   box-sizing:border-box;
   font-family:'Poppins',sans-serif;
@@ -48,7 +48,7 @@ canvas{
   left:0;
   width:100%;
   height:100%;
-  z-index:0;
+  z-index:-1; /* FIX IMPORTANTE */
 }
 
 /* SECTION */
@@ -57,8 +57,11 @@ canvas{
   display:flex;
   flex-direction:column;
   justify-content:center;
+  align-items:center;
   width:50%;
   height:85%;
+  margin-left:auto;
+  margin-right:auto;
 }
 
 /* LOGO TITLE */
@@ -97,6 +100,7 @@ canvas{
   margin-top:20px;
   font-size:20px;
   opacity:0.8;
+  text-align:center;
 }
 
 /* COUNTDOWN */
@@ -105,6 +109,7 @@ canvas{
   gap:10px;
   margin:40px 0;
   justify-content:center;
+  flex-wrap:wrap;
 }
 
 .time-box{
@@ -142,25 +147,22 @@ canvas{
   color:white;
   box-shadow:0 0 25px rgba(0,224,255,0.8);
   animation:pulse 2s infinite;
+  transition:0.3s;
 }
 
-@keyframes pulse{
-  0%{box-shadow:0 0 10px #00e0ff;}
-  50%{box-shadow:0 0 25px #00e0ff;}
-  100%{box-shadow:0 0 10px #00e0ff;}
+.btn:hover{
+  transform:scale(1.05);
 }
 
 /* ========================= */
-/* SPONSORS FULL WIDTH */
+/* SPONSORS */
 /* ========================= */
 
 .sponsors-wrapper{
   position: relative;
-
   width:100vw;
   left:50%;
   transform:translateX(-50%);
-
   overflow:hidden;
   padding:40px 0;
 }
@@ -179,20 +181,21 @@ canvas{
 
 .sponsors-track img{
   height:60px;
-  opacity:1.0;
   transition:0.3s ease;
 }
 
 .sponsors-track img:hover{
   transform: scale(1.1);
-  opacity:1;
 }
 
 .sponsors-wrapper:hover .sponsors-track{
   animation-play-state: paused;
 }
 
-/* MODAL */
+/* ========================= */
+/* MODAL PRO */
+/* ========================= */
+
 .modal{
   position:fixed;
   inset:0;
@@ -200,6 +203,16 @@ canvas{
   display:none;
   justify-content:center;
   align-items:center;
+  z-index:9999;
+
+  opacity:0;
+  transition:0.3s ease;
+}
+
+/* estado activo */
+.modal.show{
+  display:flex;
+  opacity:1;
 }
 
 .modal-content{
@@ -211,14 +224,24 @@ canvas{
   border-radius:30px;
   padding:20px;
   overflow-y:auto;
+  position:relative;
+
+  transform:scale(0.9);
+  transition:0.3s ease;
 }
 
+.modal.show .modal-content{
+  transform:scale(1);
+}
+
+/* BOTON CERRAR */
 .close{
   position:absolute;
-  top:20px;
-  right:30px;
+  top:15px;
+  right:20px;
   font-size:28px;
   cursor:pointer;
+  color:white;
 }
 
 /* RESPONSIVE */
@@ -229,5 +252,10 @@ canvas{
 
   .sponsors-track img{
     height:45px;
+  }
+
+  .time-box{
+    width:80px;
+    padding:12px;
   }
 }
