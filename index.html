@@ -46,7 +46,7 @@
     <img src="img/Sky_Airline.png">
     <img src="img/clubmed.png">
     <img src="img/tourmed.png">
-          
+
     <!-- loop -->
     <img src="img/iberostar.png">
     <img src="img/palladium.png">
@@ -71,11 +71,11 @@
   <div class="modal-content">
     <span class="close" onclick="closeModal()">✕</span>
 
-<div class="tt-widget">
-<script src="https://cdn.tickettailor.com/js/widgets/min/widget.js"
-data-url="https://www.tickettailor.com/all-tickets/jose7/?ref=website_widget"
-data-type="inline"></script>
-</div>
+    <div class="tt-widget">
+      <script src="https://cdn.tickettailor.com/js/widgets/min/widget.js"
+      data-url="https://www.tickettailor.com/all-tickets/jose7/?ref=website_widget"
+      data-type="inline"></script>
+    </div>
 
   </div>
 </div>
@@ -172,13 +172,23 @@ setInterval(updateCountdown,1000);
 updateCountdown();
 </script>
 
+<!-- MODAL JS -->
 <script>
 function openModal(){
-  document.getElementById("modal").style.display="flex";
+  const modal = document.getElementById("modal");
+  modal.classList.add("show");
 }
 
 function closeModal(){
-  document.getElementById("modal").style.display="none";
+  const modal = document.getElementById("modal");
+  modal.classList.remove("show");
+}
+
+window.onclick = function(e){
+  const modal = document.getElementById("modal");
+  if(e.target === modal){
+    closeModal();
+  }
 }
 </script>
 
