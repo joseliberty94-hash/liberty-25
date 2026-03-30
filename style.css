@@ -7,8 +7,8 @@
 
 body{
   min-height:100vh;
-  overflow-x:hidden;
-  background: linear-gradient(to bottom,#050b1f,#ffffff);
+  overflow:hidden;
+  background: radial-gradient(circle at top, #0b1b3a, #050b1f 60%);
   color:white;
 }
 
@@ -20,46 +20,45 @@ body{
   width:100%;
   height:100%;
   z-index:-1;
-  pointer-events:none; /* 🔥 CLAVE */
+  pointer-events:none;
 }
 
 /* SECTION */
 #section1{
-  margin-top:5%;
+  position:relative;
+  z-index:2;
+  min-height:100vh;
+
   display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:center;
-  width:50%;
-  margin:auto;
-  position:relative;
-  z-index:2;
+
+  text-align:center;
 }
 
 /* LOGO */
 .logo{
-  width:300px;
+  width:280px;
   filter: drop-shadow(0 0 20px #00ccff);
 }
 
-.logo-title{
-  text-align:center;
-}
-
 .logo-title span{
-  font-size:42px;
+  display:block;
+  font-size:40px;
+  margin-top:10px;
 }
 
 /* SUBTITLE */
 .subtitle{
-  margin-top:20px;
+  margin-top:15px;
   opacity:0.8;
 }
 
 /* COUNTDOWN */
 .countdown{
   display:flex;
-  gap:10px;
+  gap:15px;
   margin:40px 0;
   flex-wrap:wrap;
   justify-content:center;
@@ -68,10 +67,15 @@ body{
 .time-box{
   width:100px;
   padding:18px;
-  border-radius:20px;
+  border-radius:18px;
   background:rgba(255,255,255,0.08);
   backdrop-filter:blur(12px);
   text-align:center;
+}
+
+.time-box span{
+  font-size:22px;
+  font-weight:600;
 }
 
 /* BOTON */
@@ -82,19 +86,29 @@ body{
   cursor:pointer;
   background:linear-gradient(135deg,#00e0ff,#0072ff);
   color:white;
-  margin-bottom:80px;
+  font-weight:600;
+  transition:0.3s;
+}
+
+.btn:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 25px #00cfff;
 }
 
 /* SPONSORS */
 .sponsors-wrapper{
-  width:100vw;
+  position:absolute;
+  bottom:40px;
+  width:100%;
   overflow:hidden;
 }
 
 .sponsors-track{
   display:flex;
-  gap:80px;
+  gap:70px;
+  width:max-content;
   animation: scroll 35s linear infinite;
+  align-items:center;
 }
 
 @keyframes scroll{
@@ -103,14 +117,16 @@ body{
 }
 
 .sponsors-track img{
-  height:60px;
+  height:55px;
+  opacity:0.85;
+  filter: brightness(1.2);
 }
 
 /* MODAL */
 .modal{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,0.8);
+  background:rgba(0,0,0,0.85);
   display:flex;
   justify-content:center;
   align-items:center;
@@ -127,9 +143,9 @@ body{
 }
 
 .modal-content{
-  width:85%;
+  width:90%;
   max-width:900px;
-  background:rgba(255,255,255,0.1);
+  background:rgba(255,255,255,0.08);
   backdrop-filter:blur(20px);
   border-radius:20px;
   padding:20px;
@@ -146,7 +162,6 @@ body{
 
 /* RESPONSIVE */
 @media(max-width:900px){
-  #section1{ width:90%; }
   .logo{ width:200px; }
   .time-box{ width:80px; }
 }
