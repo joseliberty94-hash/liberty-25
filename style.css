@@ -8,8 +8,31 @@
 body{
   min-height:100vh;
   overflow:hidden;
-  background: radial-gradient(circle at top, #0b1b3a, #050b1f 60%);
+  background: linear-gradient(
+    to bottom,
+    #0a1f44 0%,
+    #1c3f7a 40%,
+    #4f86c6 70%,
+    #ffffff 100%
+  );
   color:white;
+}
+
+/* DIFUMINADO BLANCO PRO */
+body::after{
+  content:"";
+  position:fixed;
+  bottom:0;
+  left:0;
+  width:100%;
+  height:40%;
+  background: linear-gradient(
+    to top,
+    rgba(255,255,255,1),
+    rgba(255,255,255,0)
+  );
+  pointer-events:none;
+  z-index:0;
 }
 
 /* CANVAS */
@@ -52,7 +75,7 @@ body{
 /* SUBTITLE */
 .subtitle{
   margin-top:15px;
-  opacity:0.8;
+  opacity:0.9;
 }
 
 /* COUNTDOWN */
@@ -68,7 +91,7 @@ body{
   width:100px;
   padding:18px;
   border-radius:18px;
-  background:rgba(255,255,255,0.08);
+  background:rgba(255,255,255,0.12);
   backdrop-filter:blur(12px);
   text-align:center;
 }
@@ -87,6 +110,7 @@ body{
   background:linear-gradient(135deg,#00e0ff,#0072ff);
   color:white;
   font-weight:600;
+  margin-bottom:60px;
   transition:0.3s;
 }
 
@@ -98,9 +122,10 @@ body{
 /* SPONSORS */
 .sponsors-wrapper{
   position:absolute;
-  bottom:40px;
+  bottom:30px;
   width:100%;
   overflow:hidden;
+  z-index:2;
 }
 
 .sponsors-track{
@@ -118,8 +143,8 @@ body{
 
 .sponsors-track img{
   height:55px;
-  opacity:0.85;
-  filter: brightness(1.2);
+  opacity:0.9;
+  filter: brightness(0.9) contrast(1.1);
 }
 
 /* MODAL */
@@ -145,7 +170,7 @@ body{
 .modal-content{
   width:90%;
   max-width:900px;
-  background:rgba(255,255,255,0.08);
+  background:rgba(255,255,255,0.1);
   backdrop-filter:blur(20px);
   border-radius:20px;
   padding:20px;
