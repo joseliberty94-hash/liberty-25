@@ -136,15 +136,30 @@ body::after{
   align-items:center;
 }
 
+/* PAUSAR CARRUSEL */
+.sponsors-wrapper:hover .sponsors-track{
+  animation-play-state: paused;
+}
+
 @keyframes scroll{
   from{transform:translateX(0);}
   to{transform:translateX(-50%);}
 }
 
+/* LOGOS */
 .sponsors-track img{
   height:55px;
   opacity:0.9;
   filter: brightness(0.9) contrast(1.1);
+  transition: transform 0.3s ease, filter 0.3s ease;
+  cursor:pointer;
+}
+
+/* HOVER LOGO */
+.sponsors-track img:hover{
+  transform: scale(1.2);
+  filter: brightness(1.2);
+  z-index:3;
 }
 
 /* MODAL */
